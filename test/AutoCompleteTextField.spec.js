@@ -16,9 +16,12 @@ const doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
 
 global.document = doc;
 global.window = doc.defaultView;
+
+// we need to define these two functions to satisfy textarea-caret and mitigate its bug
 global.window.getComputedStyle = () => { return {}; };
 global.getComputedStyle = () => { return {}; };
 
+// We need to have `document` and `window` in global scope before requiring TextField
 const TextField = require('../dist/bundle').default;
 
 function createOnChangeEvent(value) {
