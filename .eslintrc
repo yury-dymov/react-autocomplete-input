@@ -1,0 +1,16 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "rules": {
+    "max-len": [2, 128, 4, {
+      "ignoreComments": false,
+      "ignorePattern": "^\\s*(const|let|var)\\s+\\w+\\s+\\=\\s+\\/.*\\/(|i|g|m|ig|im|gm|igm);?$",
+      "ignoreUrls": true
+    }],
+    "no-mixed-operators": 0,
+    "no-plusplus": ["error", { allowForLoopAfterthoughts: true }],
+  },
+  "globals": {
+    "window": true
+  }
+}
