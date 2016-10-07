@@ -142,6 +142,7 @@ describe('option list filtering', () => {
     component.find('textarea').simulate('change', createOnChangeEvent('@abc'));
     expect(component.find('.react-autocomplete-input > li')).to.have.length(2);
   });
+
 });
 
 describe('max options test', () => {
@@ -159,6 +160,14 @@ describe('max options test', () => {
     component.find('textarea').simulate('change', createOnChangeEvent('@a'));
 
     expect(component.find('.react-autocomplete-input > li')).to.have.length(3);
+  });
+
+  it('options: 10, maxOptions: 0 => 10 options', () => {
+    const component = mount(<TextField trigger="@" options={["aa", "ab", "abc", "abcd", "abcde", "ae", "af", "ag", "ah", "az"]} maxOptions={0} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+
+    expect(component.find('.react-autocomplete-input > li')).to.have.length(10);
   });
 });
 

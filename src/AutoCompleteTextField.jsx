@@ -307,7 +307,9 @@ class AutocompleteTextField extends React.Component {
 
     const { left, matchLength, options, selection, top } = this.state;
 
-    const helperOptions = options.slice(0, this.props.maxOptions).map((val, idx) => (
+    const optionNumber = this.props.maxOptions === 0 ? options.length : this.props.maxOptions;
+
+    const helperOptions = options.slice(0, optionNumber).map((val, idx) => (
       <li
         className={idx === selection ? 'active' : null}
         key={val}

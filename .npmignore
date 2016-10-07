@@ -1,5 +1,6 @@
 coverage
 demo
+docs
 src
 test
 .babelrc
