@@ -4,18 +4,21 @@ import chai, { expect }           from 'chai';
 import chaiEnzyme                 from 'chai-enzyme';
 import { shallow, mount, render } from 'enzyme';
 import jsdom                      from 'jsdom';
+import { spy }                    from 'sinon';
 
 const KEY_UP = 38;
 const KEY_DOWN = 40;
 const KEY_RETURN = 13;
 const KEY_ENTER = 14;
+const KEY_ESCAPE = 27;
 
 chai.use(chaiEnzyme());
 
-const doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
+const doc = jsdom.jsdom('<!doctype html><html><body><div id="app"></div></body></html>');
 
 global.document = doc;
 global.window = doc.defaultView;
+global.navigator = window.navigator;
 
 // we need to define these two functions to satisfy textarea-caret and mitigate its bug
 global.window.getComputedStyle = () => { return {}; };
@@ -352,7 +355,7 @@ describe('selecting option from list', () => {
     expect(component.find('textarea')).to.have.html().match(/@aa/);
   });
 
-  it('enter => hide options, update textarea', () => {
+  it('return => hide options, update textarea', () => {
     const component = mount(<TextField options={["aa", "ab"]} />);
 
     component.find('textarea').simulate('change', createOnChangeEvent('@'));
@@ -361,6 +364,20 @@ describe('selecting option from list', () => {
     expect(component.find('.react-autocomplete-input')).to.have.length(1);
 
     component.find('textarea').simulate('keyDown', { keyCode: KEY_RETURN });
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(0);
+    expect(component.find('textarea')).to.have.html().match(/@aa/);
+  });
+
+  it('enter => hide options, update textarea', () => {
+    const component = mount(<TextField options={["aa", "ab"]} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@'));
+    component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(1);
+
+    component.find('textarea').simulate('keyDown', { keyCode: KEY_ENTER });
 
     expect(component.find('.react-autocomplete-input')).to.have.length(0);
     expect(component.find('textarea')).to.have.html().match(/@aa/);
@@ -419,5 +436,104 @@ describe('selecting option from list', () => {
     component.find('li').last().simulate('mouseEnter');
 
     expect(component.find('.active')).to.have.html().match(/a.*?>b</);
+  });
+});
+
+describe('different key events', () => {
+  it('hide options if trigger is deleted', () => {
+    const component = mount(<TextField options={["aa", "ab"]} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(1);
+
+    component.find('textarea').simulate('change', createOnChangeEvent(''));
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(0);
+  });
+
+  it('hide options if escape pressed', () => {
+    const component = mount(<TextField options={["aa", "ab"]} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(1);
+
+    component.find('textarea').simulate('keyDown', { keyCode:  KEY_ESCAPE });
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(0);
+  });
+
+  it('other keyDown events are propagated if helper not visible', () => {
+    const handleKeyDown = spy();
+
+    const component = mount(<TextField options={["aa", "ab"]} onKeyDown={handleKeyDown} />);
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(0);
+
+    component.find('textarea').simulate('keyDown', { keyCode: 55 });
+
+    expect(handleKeyDown.calledOnce).to.equal(true);
+  });
+
+  it('other keyDown events are propagated if helper is visible', () => {
+    const handleKeyDown = spy();
+
+    const component = mount(<TextField options={["aa", "ab"]} onKeyDown={handleKeyDown} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(1);
+
+    component.find('textarea').simulate('keyDown', { keyCode: 55 });
+
+    expect(handleKeyDown.calledOnce).to.equal(true);
+  });
+});
+
+describe('updating props', () => {
+  it('option list is updated if props value is updated', () => {
+    const component = mount(<TextField options={["aa", "ab"]} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+
+    expect(component.find('.react-autocomplete-input > li')).to.have.length(2);
+
+    component.setProps({ options: ["aa", "ab", "ac"] });
+
+    expect(component.find('.react-autocomplete-input > li')).to.have.length(3);
+  });
+});
+
+
+describe('resize', () => {
+  it('resize event is attached on componentDidMount', () => {
+    window.addEventListener = spy();
+
+    const component = mount(<TextField options={["aa", "ab"]} />);
+
+    expect(window.addEventListener.calledOnce).to.equal(true);
+  });
+
+  it('resize event removed attached on componentWillUnmount', () => {
+    window.removeEventListener = spy();
+
+    const component = mount(<TextField options={["aa", "ab"]} />, { attachTo: document.body.getElementsByTagName('div')[0] });
+
+    component.detach();
+
+    expect(window.removeEventListener.calledOnce).to.equal(true);
+  });
+
+  it('on resize event helper is removed', () => {
+    const component = mount(<TextField options={["aa", "ab"]} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(1);
+
+    component.instance().handleResize();
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(0);
   });
 });

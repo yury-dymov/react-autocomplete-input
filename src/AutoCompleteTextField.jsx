@@ -319,10 +319,6 @@ class AutocompleteTextField extends React.Component {
       </li>
     ));
 
-    if (!helperOptions.length) {
-      return null;
-    }
-
     return (
       <ul className="react-autocomplete-input" style={{ left, top }}>
         {helperOptions}
@@ -331,7 +327,6 @@ class AutocompleteTextField extends React.Component {
   }
 
   /* eslint-enable jsx-a11y/no-static-element-interactions */
-
 
   render() {
     const { Component, defaultValue, disabled, value, ...rest } = this.props;
