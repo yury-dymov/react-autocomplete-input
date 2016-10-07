@@ -14,6 +14,12 @@
     "type": "git",
     "url": "git+https://github.com/yury-dymov/react-autocomplete-input.git"
   },
+  "keywords": [
+    "react",
+    "autocomplete",
+    "input",
+    "textarea"
+  ],
   "author": "Yury Dymov",
   "license": "MIT",
   "bugs": {
