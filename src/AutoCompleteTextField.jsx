@@ -337,7 +337,7 @@ class AutocompleteTextField extends React.Component {
       val = value;
     } else if (this.state.value) {
       val = this.state.value;
-    } else if (defaultValue){
+    } else if (defaultValue) {
       val = defaultValue;
     }
 
