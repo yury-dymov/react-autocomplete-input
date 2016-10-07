@@ -1,7 +1,7 @@
 {
   "name": "react-autocomplete-input",
   "version": "1.0.0-rc.1",
-  "description": "",
+  "description": "Autocomplete input field for React",
   "main": "dist/bundle.js",
   "scripts": {
     "build": "NODE_ENV=production webpack -p",
@@ -46,6 +46,7 @@
     "react-addons-test-utils": "^15.3.2",
     "react-dom": "^15.3.2",
     "rimraf": "^2.5.4",
+    "sinon": "^1.17.6",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.2",
     "webpack-node-externals": "^1.4.3"

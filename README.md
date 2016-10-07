@@ -1,11 +1,11 @@
 # react-autocomplete-input
-Autocomplete widget for React
+Autocomplete input field for React
 
 [![react-autocomplete-input](https://github.com/yury-dymov/react-autocomplete-input/raw/master/docs/demo.gif)](https://github.com/yury-dymov/react-autocomplete-input)
 
 [![npm version](https://img.shields.io/npm/v/react-autocomplete-input.svg?style=flat)](https://www.npmjs.com/package/react-autocomplete-input)
 [![Downloads](http://img.shields.io/npm/dm/react-autocomplete-input.svg?style=flat-square)](https://npmjs.org/package/react-autocomplete-input)
-[![Build Status](https://img.shields.io/travis/yury-dymov/react-autocomplete-input/master.svg?style=flat)](https://travis-ci.org/yury-dymov/reareact-autocomplete-input)
+[![Build Status](https://img.shields.io/travis/yury-dymov/react-autocomplete-input/master.svg?style=flat)](https://travis-ci.org/yury-dymov/react-autocomplete-input)
 [![Coverage Status](https://coveralls.io/repos/github/yury-dymov/react-autocomplete-input/badge.svg?branch=master)](https://coveralls.io/github/yury-dymov/react-autocomplete-input?branch=master)
 
 # Demo
@@ -29,23 +29,23 @@ import 'react-autocomplete-input/dist/bundle.css';
 *Note*: All props are optional.
 
 ## Component : string
-#### default value: "textarea"
+#### Default value: `"textarea"`
 Widget for rendering input field
 
 ## defaultValue : string
-#### default value: ""
+#### Default value: `""`
 Initial text for input
 
 ## disabled : boolean
-#### default value: false
+#### Default value: `false`
 Disables widget, i.e. during form submission
 
 ## maxOptions : number
-#### default value: 6
+#### Default value: `6`
 Defines how many options can be listed simultaneously. Show all matched options if maxOptions equals 0.
 
 ## onRequestOptions : func
-#### default value: () => {}
+#### Default value: `() => {}`
 Callback for requesting new options to support lazy-loading. If `requestOnlyIfNoOptions` is true, then `onRequestOptions` called only if no options are currently available. Otherwise `onRequestOptions` is called every time text is changed and `trigger` is found.
 
 ```JavaScript
@@ -74,31 +74,35 @@ class MyComponent extends React.Component {
 ```
 
 ## options : array
-#### default value: []
+#### Default value: `[]`
 List of available options for autocomplete
 
 ## regex : string
-#### default value: "^[a-zA-Z0-9_\-]+$"
+#### Default value: `^[a-zA-Z0-9_\-]+$`
 This regular expression checks if text after `trigger` can be autocompleted or not. I.e. "@ap" matches the default regex as "ap" matches the regex, therefore library will try to find appropriate option. "@a$p" fails to match the regex as there is not "$" character in it, therefore library considering this string as irrelevant.
 
 ## requestOnlyIfNoOptions : boolean
-#### default value: true
+#### Default value: `true`
 If `requestOnlyIfNoOptions` is true, then `onRequestOptions` called only if no options are currently available. Otherwise `onRequestOptions` is called every time text is changed and `trigger` is found.
 
 ## spaceRemovers : array
-#### default value: [',', '.', '!', '?']
-By default, after option is selected, it is inserted with following space. If user inputs one of the characters from `spaceRemovers` array, then space is automatically removed. I.e. "@apple ,|" is automatically changed to "@apple, |", where "|" represents caret.
+#### Default value: `[',', '.', '!', '?']`
+By default, after option is selected, it is inserted with following space. If user inputs one of the characters from `spaceRemovers` array, then space is automatically removed. I.e. `@apple ,|` is automatically changed to `@apple, |`, where `|` represents caret.
 
 ## trigger : string
-#### default value: '@'
+#### Default value: `'@'`
 Character or string, which triggers showing autocompletion option list. '' and '@@' are both valid triggers. Keep in mind that user have to input at least one extra character to make option list available if empty trigger is used.
 
 ## value : string
-#### default value: ''
+#### Default value: `''`
 Widget supports both controlling options: by value and by state. If you explicitly pass `value` prop, you have to update it manually every time `onChange` event is emitted. If you don't pass `value` prop, then widget uses internal state for value manipulation.
 
 # Styles Customization
-By default styles are defined in "react-autocomplete-input/dist/bundle.css", however, you may define your custom styles instead for following entities: `ul.react-autocomplete-input, ul.react-autocomplete-input > li, ul.react-autocomplete-input > li.active`.
+By default styles are defined in `react-autocomplete-input/dist/bundle.css`, however, you may define your custom styles instead for following entities:
+
+* `ul.react-autocomplete-input`
+* `ul.react-autocomplete-input > li`
+* `ul.react-autocomplete-input > li.active`
 
 # License
 MIT (c) Yury Dymov
