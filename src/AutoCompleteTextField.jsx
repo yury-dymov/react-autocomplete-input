@@ -44,7 +44,6 @@ const defaultProps = {
   requestOnlyIfNoOptions: true,
   spaceRemovers: [',', '.', '!', '?'],
   trigger: '@',
-  value: '',
 };
 
 class AutocompleteTextField extends React.Component {
@@ -162,13 +161,9 @@ class AutocompleteTextField extends React.Component {
 
     this.recentValue = str;
 
-    this.setState({ caret });
+    this.setState({ caret, value: e.target.value });
 
     if (!str.length || !caret) {
-      if (!this.props.value) {
-        this.setState({ value: e.target.value });
-      }
-
       return onChange(e.target.value);
     }
 
@@ -336,6 +331,16 @@ class AutocompleteTextField extends React.Component {
     const propagated = Object.assign({}, rest);
     Object.keys(this.constructor.propTypes).forEach((k) => { delete propagated[k]; });
 
+    let val = '';
+
+    if (typeof value !== 'undefined' && value !== null) {
+      val = value;
+    } else if (this.state.value) {
+      val = this.state.value;
+    } else if (defaultValue){
+      val = defaultValue;
+    }
+
     return (
       <span>
         <Component
@@ -344,7 +349,7 @@ class AutocompleteTextField extends React.Component {
           onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}
           ref={(c) => { this.refInput = c; }}
-          value={value || this.state.value || defaultValue}
+          value={val}
           {...propagated}
         />
         {this.renderAutocompleteList()}
