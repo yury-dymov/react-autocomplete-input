@@ -98,11 +98,15 @@ Character or string, which triggers showing autocompletion option list. '' and '
 Widget supports both controlling options: by value and by state. If you explicitly pass `value` prop, you have to update it manually every time `onChange` event is emitted. If you don't pass `value` prop, then widget uses internal state for value manipulation.
 
 # Styles Customization
-By default styles are defined in `react-autocomplete-input/dist/bundle.css`, however, you may define your custom styles instead for following entities:
+By default styles are defined in `"react-autocomplete-input/dist/bundle.css"`, however, you may define your custom styles instead for following entities:
 
 * `ul.react-autocomplete-input`
 * `ul.react-autocomplete-input > li`
 * `ul.react-autocomplete-input > li.active`
+
+# Design Considerations
+1. Native "Undo" action is not fully supported. It might be changed in the future but currently there is no out-of-the-box solution, which solves this issue for all browsers at once.
+2. It is considered that list of options will be always small, lets say up to 2000 items. Therefore, options are stored internally as array. If your use-case requires to work with huge lists, I would recommend to reimplement option internal representation as binary search tree instead.
 
 # License
 MIT (c) Yury Dymov
