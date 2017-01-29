@@ -513,36 +513,3 @@ describe('updating props', () => {
     expect(component.find('.react-autocomplete-input > li')).to.have.length(3);
   });
 });
-
-
-describe('resize', () => {
-  it('resize event is attached on componentDidMount', () => {
-    window.addEventListener = spy();
-
-    const component = mount(<TextField options={["aa", "ab"]} />);
-
-    expect(window.addEventListener.calledOnce).to.equal(true);
-  });
-
-  it('resize event removed attached on componentWillUnmount', () => {
-    window.removeEventListener = spy();
-
-    const component = mount(<TextField options={["aa", "ab"]} />, { attachTo: document.body.getElementsByTagName('div')[0] });
-
-    component.detach();
-
-    expect(window.removeEventListener.calledOnce).to.equal(true);
-  });
-
-  it('on resize event helper is removed', () => {
-    const component = mount(<TextField options={["aa", "ab"]} />);
-
-    component.find('textarea').simulate('change', createOnChangeEvent('@a'));
-
-    expect(component.find('.react-autocomplete-input')).to.have.length(1);
-
-    component.instance().handleResize();
-
-    expect(component.find('.react-autocomplete-input')).to.have.length(0);
-  });
-});
