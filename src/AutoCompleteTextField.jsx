@@ -272,8 +272,8 @@ class AutocompleteTextField extends React.Component {
       const caretPos = getCaretCoordinates(input, caret);
       const rect = input.getBoundingClientRect();
 
-      const top = caretPos.top + rect.top + 15 + window.scrollY;
-      const left = Math.min(caretPos.left + rect.left - OPTION_LIST_Y_OFFSET, rect.left + rect.width - OPTION_LIST_MIN_WIDTH);
+      const top = caretPos.top + input.offsetTop;
+      const left = Math.min(caretPos.left + input.offsetLeft - OPTION_LIST_Y_OFFSET, input.offsetLeft + rect.width - OPTION_LIST_MIN_WIDTH);
 
       if (slug.options.length > 1 || (slug.options.length === 1 && slug.options[0].length !== slug.matchLength)) {
         this.setState({ helperVisible: true, top, left, ...slug });
