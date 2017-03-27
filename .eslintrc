@@ -9,6 +9,7 @@
     }],
     "no-mixed-operators": 0,
     "no-plusplus": ["error", { allowForLoopAfterthoughts: true }],
+    "no-continue": 0
   },
   "globals": {
     "window": true
