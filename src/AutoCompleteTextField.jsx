@@ -98,11 +98,11 @@ class AutocompleteTextField extends React.Component {
       const substr = str.substring(i, caret);
       const match = substr.match(re);
 
-      if (!match) {
-        if (!triggerLength && substr.length === 1) {
-          return null;
-        }
+      if (triggerLength === 0 && !match) {
+        continue;
+      }
 
+      if (triggerLength === 0 || !match) {
         const triggerIdx = i - triggerLength + 1;
 
         if (triggerIdx < 0) {
@@ -273,7 +273,10 @@ class AutocompleteTextField extends React.Component {
       const rect = input.getBoundingClientRect();
 
       const top = caretPos.top + input.offsetTop;
-      const left = Math.min(caretPos.left + input.offsetLeft - OPTION_LIST_Y_OFFSET, input.offsetLeft + rect.width - OPTION_LIST_MIN_WIDTH);
+      const left = Math.min(
+        caretPos.left + input.offsetLeft - OPTION_LIST_Y_OFFSET,
+        input.offsetLeft + rect.width - OPTION_LIST_MIN_WIDTH
+      );
 
       if (slug.options.length > 1 || (slug.options.length === 1 && slug.options[0].length !== slug.matchLength)) {
         this.setState({ helperVisible: true, top, left, ...slug });

@@ -91,6 +91,14 @@ describe('option list is shown for different trigger strings', () => {
 
     expect(component.find('.react-autocomplete-input')).to.have.length(1);
   });
+
+  it('trigger empty, option list should appear if first letter matched', () => {
+    const component = mount(<TextField options={["aa", "ab"]} trigger="" />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('a'));
+
+    expect(component.find('.react-autocomplete-input > li')).to.have.length(2);
+  });
 });
 
 describe('option list appearance', () => {
