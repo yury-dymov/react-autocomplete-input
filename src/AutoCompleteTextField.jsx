@@ -148,10 +148,6 @@ class AutocompleteTextField extends React.Component {
   }
 
   handleBlur() {
-    // we need to add small delay if mouse click was used for option selection
-    // to ensure that events would be handled in correct order
-    setTimeout(() => this.setState({ helperVisible: false }), 50);
-
     this.props.onBlur();
   }
 
