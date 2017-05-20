@@ -45,6 +45,16 @@ const defaultProps = {
   requestOnlyIfNoOptions: true,
   spaceRemovers: [',', '.', '!', '?'],
   trigger: '@',
+  optionItem: ({index, selection, value, matchLength, handleSelect, onMouseOver}) =>
+    <li
+        className={index === selection ? 'active' : null}
+        key={value}
+        onClick={handleSelect}
+        onMouseEnter={onMouseOver}
+      >
+        <b>{value.substr(0, matchLength)}</b>
+        {value.substr(matchLength, value.length)}
+      </li>
 };
 
 class AutocompleteTextField extends React.Component {
@@ -91,36 +101,33 @@ class AutocompleteTextField extends React.Component {
     window.removeEventListener('resize', this.handleResize);
   }
 
+  // * return null if there's nothing there to be used in conditionals
+  // * return { matchLength, matchStart, options } with list of options and match slice
   getMatch(str, caret, providedOptions) {
-    const triggerLength = this.props.trigger.length;
+    const trigger = this.props.trigger
+    const re = new RegExp(this.props.regex);
+    const slice = str.substr(0, caret)
+    const filter = (opts, word) => opts.filter(col => -1 !== col.indexOf(word))
 
-    for (let i = caret - 1; i >= 0; --i) {
-      const re = new RegExp(this.props.regex);
-      const substr = str.substring(i, caret);
-      const match = substr.match(re);
+    let matchLength = 0;
+    let matchStart = caret - 1;
+    let options = providedOptions;
 
-      if (triggerLength === 0 && !match) {
-        continue;
-      }
+    let lastword = str.match(/[^\s]*$/)
 
-      if (triggerLength === 0 || !match) {
-        const triggerIdx = i - triggerLength + 1;
+    const firstInput = 0 === str.length
 
-        if (triggerIdx < 0) {
-          return null;
-        }
+    if (lastword || firstInput) {
+      const buf = lastword ? lastword[0] : ""
 
-        if (this.isTrigger(str, triggerIdx)) {
-          const matchedSlug = substr.substring(1, substr.length);
+      if (!buf.match(re)) {
+         return
+      } else if (trigger === buf.substr(0, trigger.length)) {
+        matchLength = buf.length - trigger.length;
+        matchStart = caret - matchLength;
+        options = filter(providedOptions, buf.substr(trigger.length))
 
-          const options = providedOptions.filter(slug => slug.substring(0, matchedSlug.length) === matchedSlug);
-          const matchLength = matchedSlug.length;
-          const matchStart = i + 1;
-
-          return { matchLength, matchStart, options };
-        }
-
-        break;
+        return {matchLength, matchStart, options};
       }
     }
 
@@ -142,10 +149,6 @@ class AutocompleteTextField extends React.Component {
   }
 
   handleBlur() {
-    // we need to add small delay if mouse click was used for option selection
-    // to ensure that events would be handled in correct order
-    setTimeout(() => this.setState({ helperVisible: false }), 50);
-
     this.props.onBlur();
   }
 
@@ -299,26 +302,27 @@ class AutocompleteTextField extends React.Component {
 
   /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-  renderAutocompleteList() {
+  renderAutocompleteList(value) {
     if (!this.state.helperVisible) {
       return null;
     }
 
-    const { left, matchLength, options, selection, top } = this.state;
+    const { left, matchStart, matchLength, options, selection, top } = this.state;
+    const { optionItem } = this.props;
 
     const optionNumber = this.props.maxOptions === 0 ? options.length : this.props.maxOptions;
-
-    const helperOptions = options.slice(0, optionNumber).map((val, idx) => (
-      <li
-        className={idx === selection ? 'active' : null}
-        key={val}
-        onClick={() => { this.handleSelection(idx); }}
-        onMouseEnter={() => { this.setState({ selection: idx }); }}
-      >
-        <b>{val.substr(0, matchLength)}</b>
-        {val.substr(matchLength, val.length)}
-      </li>
-    ));
+    const helperOptions = options.slice(0, optionNumber).map((val, idx) =>
+      optionItem({
+         key: val,
+         value: val,
+         index: idx,
+         selection: selection,
+         matchLength: matchLength,
+         matchStart: matchStart,
+         match: value.substr(matchStart, matchLength),
+         handleSelect: () => this.handleSelection(idx),
+         onMouseOver: () => this.setState({selection: idx})
+      }));
 
     return (
       <ul className="react-autocomplete-input" style={{ left, top }}>
@@ -356,7 +360,7 @@ class AutocompleteTextField extends React.Component {
           value={val}
           {...propagated}
         />
-        {this.renderAutocompleteList()}
+        {this.renderAutocompleteList(val)}
       </span>
     );
   }
