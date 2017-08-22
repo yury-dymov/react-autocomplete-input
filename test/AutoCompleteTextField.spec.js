@@ -111,20 +111,6 @@ describe('option list appearance', () => {
     component.find('textarea').simulate('change', createOnChangeEvent('@ad'));
     expect(component.find('.react-autocomplete-input')).to.have.length(0);
   });
-
-  it('hide on blur', (done) => {
-    const component = mount(<TextField trigger="@" options={["aa", "ab"]} />);
-
-    component.find('textarea').simulate('change', createOnChangeEvent('@a'));
-    expect(component.find('.react-autocomplete-input')).to.have.length(1);
-
-    component.find('textarea').simulate('blur');
-
-    setTimeout(() => {
-      expect(component.find('.react-autocomplete-input')).to.have.length(0);
-      done();
-    }, 100);
-  });
 });
 
 describe('option list filtering', () => {
@@ -308,7 +294,6 @@ describe("events should be propagated", () => {
 
     function handleBlur() {
       call = true;
-      setTimeout(() => expect(component.find('.react-autocomplete-input')).to.have.length(0), 100);
     }
 
     const component = mount(<TextField trigger="@" options={["aa", "ab"]} onBlur={handleBlur}/>);
@@ -318,7 +303,7 @@ describe("events should be propagated", () => {
     setTimeout(() => {
       expect(call).to.equal(true);
       done();
-    }, 150);
+    }, 0);
   });
 
   it('onChange', (done) => {

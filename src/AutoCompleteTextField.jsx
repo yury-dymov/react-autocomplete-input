@@ -53,7 +53,6 @@ class AutocompleteTextField extends React.Component {
 
     this.isTrigger = this.isTrigger.bind(this);
     this.getMatch = this.getMatch.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleResize = this.handleResize.bind(this);
@@ -139,14 +138,6 @@ class AutocompleteTextField extends React.Component {
     }
 
     return false;
-  }
-
-  handleBlur() {
-    // we need to add small delay if mouse click was used for option selection
-    // to ensure that events would be handled in correct order
-    setTimeout(() => this.setState({ helperVisible: false }), 50);
-
-    this.props.onBlur();
   }
 
   handleChange(e) {
@@ -349,7 +340,7 @@ class AutocompleteTextField extends React.Component {
       <span>
         <Component
           disabled={disabled}
-          onBlur={this.handleBlur}
+          onBlur={this.props.onBlur}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}
           ref={(c) => { this.refInput = c; }}
