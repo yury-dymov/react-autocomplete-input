@@ -30,6 +30,8 @@ const propTypes = {
   spaceRemovers: PropTypes.array,
   trigger: PropTypes.string,
   value: PropTypes.any,
+  offsetX: PropTypes.number,
+  offsetY: PropTypes.number,
 };
 
 const defaultProps = {
@@ -47,6 +49,8 @@ const defaultProps = {
   requestOnlyIfNoOptions: true,
   spaceRemovers: [',', '.', '!', '?'],
   trigger: '@',
+  offsetX: 0,
+  offsetY: 0,
 };
 
 class AutocompleteTextField extends React.Component {
@@ -314,13 +318,13 @@ class AutocompleteTextField extends React.Component {
       return null;
     }
 
-    const { trigger, maxOptions } = this.props;
-    const { left, matchLength, options, selection, top } = this.state;
+    const { maxOptions, offsetX, offsetY } = this.props;
+    const { value, left, matchStart, matchLength, options, selection, top } = this.state;
 
     const optionNumber = this.props.maxOptions === 0 ? options.length : maxOptions;
 
     const helperOptions = options.slice(0, optionNumber).map((val, idx) => {
-      const highlightStart = val.indexOf(val.slice(trigger.length));
+      const highlightStart = val.indexOf(value.substr(matchStart, matchLength));
 
       return (
         <li
@@ -337,7 +341,7 @@ class AutocompleteTextField extends React.Component {
     });
 
     return (
-      <ul className="react-autocomplete-input" style={{ left, top }}>
+      <ul className="react-autocomplete-input" style={{ left: left + offsetX, top: top + offsetY }}>
         {helperOptions}
       </ul>
     );
