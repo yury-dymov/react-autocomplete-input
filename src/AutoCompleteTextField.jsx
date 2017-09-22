@@ -74,6 +74,7 @@ class AutocompleteTextField extends React.Component {
     };
 
     this.recentValue = props.defaultValue;
+    this.enableSpaceRemovers = false;
   }
 
   componentDidMount() {
@@ -172,7 +173,7 @@ class AutocompleteTextField extends React.Component {
     }
 
     // '@wonderjenny ,|' -> '@wonderjenny, |'
-    if (spaceRemovers.length && str.length > 2) {
+    if (this.enableSpaceRemovers && spaceRemovers.length && str.length > 2) {
       for (let i = 0; i < Math.max(old.length, str.length); ++i) {
         if (old[i] !== str[i]) {
           if (
@@ -182,7 +183,7 @@ class AutocompleteTextField extends React.Component {
             spaceRemovers.indexOf(str[i]) !== -1 &&
             this.getMatch(str.substring(0, i - 2).toLowerCase(), caret - 3, options)
           ) {
-            const newValue = (`${str.slice(0, i - 1)}${str.slice(i, str.length)} `);
+            const newValue = (`${str.slice(0, i - 1)}${str.slice(i, i + 1)}${str.slice(i - 1, i)}${str.slice(i + 1)}`);
 
             this.updateCaretPosition(i + 1);
             findDOMNode(this.refInput).value = newValue;
@@ -197,6 +198,8 @@ class AutocompleteTextField extends React.Component {
           break;
         }
       }
+
+      this.enableSpaceRemovers = false;
     }
 
     this.updateHelper(str, caret, options);
@@ -259,6 +262,7 @@ class AutocompleteTextField extends React.Component {
     this.resetHelper();
 
     this.updateCaretPosition(part1.length + slug.length + 1);
+    this.enableSpaceRemovers = true;
   }
 
   updateCaretPosition(caret) {
