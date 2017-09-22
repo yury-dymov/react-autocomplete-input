@@ -315,12 +315,12 @@ class AutocompleteTextField extends React.Component {
     }
 
     const { trigger, maxOptions } = this.props;
-    const { value, left, matchLength, options, selection, top } = this.state;
+    const { left, matchLength, options, selection, top } = this.state;
 
     const optionNumber = this.props.maxOptions === 0 ? options.length : maxOptions;
 
     const helperOptions = options.slice(0, optionNumber).map((val, idx) => {
-      const highlightStart = val.indexOf(value.slice(trigger.length));
+      const highlightStart = val.indexOf(val.slice(trigger.length));
 
       return (
         <li
