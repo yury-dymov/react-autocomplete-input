@@ -91,35 +91,47 @@ class AutocompleteTextField extends React.Component {
   }
 
   getMatch(str, caret, providedOptions) {
-    const triggerLength = this.props.trigger.length;
+    const { trigger } = this.props;
+    const re = new RegExp(this.props.regex);
+    const triggerLength = trigger.length;
+    const triggerMatch = trigger.match(re);
 
     for (let i = caret - 1; i >= 0; --i) {
-      const re = new RegExp(this.props.regex);
       const substr = str.substring(i, caret);
       const match = substr.match(re);
+      let matchStart = -1;
 
-      if (triggerLength === 0 && !match) {
-        continue;
-      }
+      if (triggerLength > 0) {
+        const triggerIdx = triggerMatch ? i : i - triggerLength + 1;
 
-      if (triggerLength === 0 || !match) {
-        const triggerIdx = i - triggerLength + 1;
-
-        if (triggerIdx < 0) {
+        if (triggerIdx < 0) { // out of input
           return null;
         }
 
         if (this.isTrigger(str, triggerIdx)) {
-          const matchedSlug = substr.substring(1, substr.length);
-
-          const options = providedOptions.filter(slug => slug.substring(0, matchedSlug.length) === matchedSlug);
-          const matchLength = matchedSlug.length;
-          const matchStart = i + 1;
-
-          return { matchLength, matchStart, options };
+          matchStart = triggerIdx + triggerLength;
         }
 
-        break;
+        if (!match && matchStart < 0) {
+          return null;
+        }
+      } else {
+        if (match && i > 0) { // find first non-matching character or begin of input
+          continue;
+        }
+        matchStart = i === 0 && match ? 0 : i + 1;
+
+        if (caret - matchStart === 0) { // matched slug is empty
+          return null;
+        }
+      }
+
+      if (matchStart >= 0) {
+        const matchedSlug = str.substring(matchStart, caret);
+        const options = providedOptions.filter(slug => slug.substring(0, matchedSlug.length) === matchedSlug);
+        const matchLength = matchedSlug.length;
+
+        return { matchStart, matchLength, options };
       }
     }
 
@@ -233,22 +245,20 @@ class AutocompleteTextField extends React.Component {
 
   handleSelection(idx) {
     const { matchStart, matchLength, options } = this.state;
-    const { trigger } = this.props;
 
-    const triggerLength = trigger.length;
     const slug = options[idx];
     const value = this.recentValue;
-    const part1 = value.substring(0, matchStart - triggerLength);
-    const part2 = value.substring(matchStart + matchLength + triggerLength, value.length);
+    const part1 = value.substring(0, matchStart);
+    const part2 = value.substring(matchStart + matchLength);
 
     const event = { target: findDOMNode(this.refInput) };
 
-    event.target.value = `${part1}${trigger}${slug} ${part2}`;
+    event.target.value = `${part1}${slug} ${part2}`;
     this.handleChange(event);
 
     this.resetHelper();
 
-    this.updateCaretPosition(part1.length + slug.length + triggerLength + 1);
+    this.updateCaretPosition(part1.length + slug.length + 1);
   }
 
   updateCaretPosition(caret) {
