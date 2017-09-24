@@ -73,6 +73,18 @@ class MyComponent extends React.Component {
 }
 ```
 
+## matchAny: boolean
+#### Default value: false
+If true, will match options in the middle of the word as well
+
+## offsetX: number
+#### Default value: 0
+Popup horizontal offset
+
+## offsetY: number
+#### Default value: 0
+Popup vertical offset
+
 ## options : array
 #### Default value: `[]`
 List of available options for autocomplete

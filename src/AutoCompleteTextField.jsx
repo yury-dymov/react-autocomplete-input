@@ -272,7 +272,7 @@ class AutocompleteTextField extends React.Component {
     this.resetHelper();
 
     this.updateCaretPosition(part1.length + slug.length + 1);
-    
+
     this.enableSpaceRemovers = true;
   }
 
