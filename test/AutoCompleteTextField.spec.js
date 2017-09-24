@@ -223,7 +223,10 @@ describe('spaceRemovers', () => {
   it('space is removed if option matched', () => {
     const component = mount(<TextField spaceRemovers={[';']} options={["aa", "ab"]} />);
 
-    component.find('textarea').simulate('change', createOnChangeEvent('@aa '));
+    component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+    component.setState({ helperVisible: true });
+
+    component.find('li.active').simulate('click');
     component.find('textarea').simulate('change', createOnChangeEvent('@aa ;'));
 
     expect(component.find('textarea')).to.have.html().match(/@aa; /);

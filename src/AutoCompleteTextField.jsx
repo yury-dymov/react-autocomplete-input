@@ -25,10 +25,13 @@ const propTypes = {
   onRequestOptions: PropTypes.func,
   options: PropTypes.array,
   regex: PropTypes.string,
+  matchAny: PropTypes.bool,
   requestOnlyIfNoOptions: PropTypes.bool,
   spaceRemovers: PropTypes.array,
   trigger: PropTypes.string,
   value: PropTypes.any,
+  offsetX: PropTypes.number,
+  offsetY: PropTypes.number,
 };
 
 const defaultProps = {
@@ -42,9 +45,12 @@ const defaultProps = {
   onRequestOptions: () => {},
   options: [],
   regex: '^[A-Za-z0-9\\-_]+$',
+  matchAny: false,
   requestOnlyIfNoOptions: true,
   spaceRemovers: [',', '.', '!', '?'],
   trigger: '@',
+  offsetX: 0,
+  offsetY: 0,
 };
 
 class AutocompleteTextField extends React.Component {
@@ -74,6 +80,7 @@ class AutocompleteTextField extends React.Component {
     };
 
     this.recentValue = props.defaultValue;
+    this.enableSpaceRemovers = false;
   }
 
   componentDidMount() {
@@ -91,7 +98,7 @@ class AutocompleteTextField extends React.Component {
   }
 
   getMatch(str, caret, providedOptions) {
-    const { trigger } = this.props;
+    const { trigger, matchAny } = this.props;
     const re = new RegExp(this.props.regex);
     const triggerLength = trigger.length;
     const triggerMatch = trigger.match(re);
@@ -128,7 +135,11 @@ class AutocompleteTextField extends React.Component {
 
       if (matchStart >= 0) {
         const matchedSlug = str.substring(matchStart, caret);
-        const options = providedOptions.filter(slug => slug.substring(0, matchedSlug.length) === matchedSlug);
+        const options = providedOptions.filter((slug) => {
+          const idx = slug.indexOf(matchedSlug);
+          return idx !== -1 && (matchAny || idx === 0);
+        });
+
         const matchLength = matchedSlug.length;
 
         return { matchStart, matchLength, options };
@@ -172,7 +183,7 @@ class AutocompleteTextField extends React.Component {
     }
 
     // '@wonderjenny ,|' -> '@wonderjenny, |'
-    if (spaceRemovers.length && str.length > 2) {
+    if (this.enableSpaceRemovers && spaceRemovers.length && str.length > 2) {
       for (let i = 0; i < Math.max(old.length, str.length); ++i) {
         if (old[i] !== str[i]) {
           if (
@@ -182,7 +193,7 @@ class AutocompleteTextField extends React.Component {
             spaceRemovers.indexOf(str[i]) !== -1 &&
             this.getMatch(str.substring(0, i - 2).toLowerCase(), caret - 3, options)
           ) {
-            const newValue = (`${str.slice(0, i - 1)}${str.slice(i, str.length)} `);
+            const newValue = (`${str.slice(0, i - 1)}${str.slice(i, i + 1)}${str.slice(i - 1, i)}${str.slice(i + 1)}`);
 
             this.updateCaretPosition(i + 1);
             findDOMNode(this.refInput).value = newValue;
@@ -197,6 +208,8 @@ class AutocompleteTextField extends React.Component {
           break;
         }
       }
+
+      this.enableSpaceRemovers = false;
     }
 
     this.updateHelper(str, caret, options);
@@ -259,6 +272,8 @@ class AutocompleteTextField extends React.Component {
     this.resetHelper();
 
     this.updateCaretPosition(part1.length + slug.length + 1);
+    
+    this.enableSpaceRemovers = true;
   }
 
   updateCaretPosition(caret) {
@@ -305,24 +320,30 @@ class AutocompleteTextField extends React.Component {
       return null;
     }
 
-    const { left, matchLength, options, selection, top } = this.state;
+    const { maxOptions, offsetX, offsetY } = this.props;
+    const { value, left, matchStart, matchLength, options, selection, top } = this.state;
 
-    const optionNumber = this.props.maxOptions === 0 ? options.length : this.props.maxOptions;
+    const optionNumber = this.props.maxOptions === 0 ? options.length : maxOptions;
 
-    const helperOptions = options.slice(0, optionNumber).map((val, idx) => (
-      <li
-        className={idx === selection ? 'active' : null}
-        key={val}
-        onClick={() => { this.handleSelection(idx); }}
-        onMouseEnter={() => { this.setState({ selection: idx }); }}
-      >
-        <b>{val.substr(0, matchLength)}</b>
-        {val.substr(matchLength, val.length)}
-      </li>
-    ));
+    const helperOptions = options.slice(0, optionNumber).map((val, idx) => {
+      const highlightStart = val.indexOf(value.substr(matchStart, matchLength));
+
+      return (
+        <li
+          className={idx === selection ? 'active' : null}
+          key={val}
+          onClick={() => { this.handleSelection(idx); }}
+          onMouseEnter={() => { this.setState({ selection: idx }); }}
+        >
+          {val.slice(0, highlightStart)}
+          <strong>{val.substr(highlightStart, matchLength)}</strong>
+          {val.slice(highlightStart + matchLength)}
+        </li>
+      );
+    });
 
     return (
-      <ul className="react-autocomplete-input" style={{ left, top }}>
+      <ul className="react-autocomplete-input" style={{ left: left + offsetX, top: top + offsetY }}>
         {helperOptions}
       </ul>
     );
