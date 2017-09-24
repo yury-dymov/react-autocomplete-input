@@ -139,6 +139,7 @@ class AutocompleteTextField extends React.Component {
           const idx = slug.indexOf(matchedSlug);
           return idx !== -1 && (matchAny || idx === 0);
         });
+
         const matchLength = matchedSlug.length;
 
         return { matchStart, matchLength, options };
@@ -271,6 +272,7 @@ class AutocompleteTextField extends React.Component {
     this.resetHelper();
 
     this.updateCaretPosition(part1.length + slug.length + 1);
+    
     this.enableSpaceRemovers = true;
   }
 
