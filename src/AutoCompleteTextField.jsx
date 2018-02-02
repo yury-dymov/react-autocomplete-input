@@ -326,7 +326,7 @@ class AutocompleteTextField extends React.Component {
     const optionNumber = this.props.maxOptions === 0 ? options.length : maxOptions;
 
     const helperOptions = options.slice(0, optionNumber).map((val, idx) => {
-      const highlightStart = val.indexOf(value.substr(matchStart, matchLength));
+      const highlightStart = val.toLowerCase().indexOf(value.substr(matchStart, matchLength).toLowerCase());
 
       return (
         <li
