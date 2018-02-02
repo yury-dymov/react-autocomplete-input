@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactDOM from 'react-dom';
-import TextField from '../../dist/bundle';
+import TextField from '../../src/AutoCompleteTextField';
 
-import '../../dist/bundle.css';
+import '../dist/bundle.css';
 
 class App extends Component {
   constructor() {
