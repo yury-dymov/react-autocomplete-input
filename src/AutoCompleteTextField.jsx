@@ -259,7 +259,7 @@ class AutocompleteTextField extends React.Component {
   handleSelection(idx) {
     const { matchStart, matchLength, options } = this.state;
 
-    const slug = options[idx];
+    const slug = options[idx] || options[0];
     const value = this.recentValue;
     const part1 = value.substring(0, matchStart);
     const part2 = value.substring(matchStart + matchLength);
@@ -326,7 +326,7 @@ class AutocompleteTextField extends React.Component {
     const optionNumber = this.props.maxOptions === 0 ? options.length : maxOptions;
 
     const helperOptions = options.slice(0, optionNumber).map((val, idx) => {
-      const highlightStart = val.indexOf(value.substr(matchStart, matchLength));
+      const highlightStart = val.toLowerCase().indexOf(value.substr(matchStart, matchLength).toLowerCase());
 
       return (
         <li
