@@ -39,10 +39,10 @@ const defaultProps = {
   defaultValue: '',
   disabled: false,
   maxOptions: 6,
-  onBlur: () => {},
-  onChange: () => {},
-  onKeyDown: () => {},
-  onRequestOptions: () => {},
+  onBlur: () => { },
+  onChange: () => { },
+  onKeyDown: () => { },
+  onRequestOptions: () => { },
   options: [],
   regex: '^[A-Za-z0-9\\-_]+$',
   matchAny: false,
@@ -259,7 +259,7 @@ class AutocompleteTextField extends React.Component {
   handleSelection(idx) {
     const { matchStart, matchLength, options } = this.state;
 
-    const slug = options[idx] || options[0];
+    const slug = options[idx];
     const value = this.recentValue;
     const part1 = value.substring(0, matchStart);
     const part2 = value.substring(matchStart + matchLength);
@@ -322,6 +322,16 @@ class AutocompleteTextField extends React.Component {
 
     const { maxOptions, offsetX, offsetY } = this.props;
     const { value, left, matchStart, matchLength, options, selection, top } = this.state;
+
+    if (options.length === 0) {
+      return null;
+    }
+
+    if (selection >= options.length) {
+      this.setState({ selection: 0 });
+
+      return null;
+    }
 
     const optionNumber = this.props.maxOptions === 0 ? options.length : maxOptions;
 
