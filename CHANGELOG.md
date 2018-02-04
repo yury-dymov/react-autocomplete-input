@@ -1,4 +1,7 @@
-### 24th September 2018 - Version 1.0.5
+### 3d February 2018 - 1.0.6
+- Some corner cases fixed for autcomplete selections
+
+### 24th September 2017 - Version 1.0.5
 - Fixed empty prefix and regex issues https://github.com/yury-dymov/react-autocomplete-input/pull/10
 - New props: offsetX, offsetY to control popup offset, and matchAny to catch options in the middle of words as well
 
