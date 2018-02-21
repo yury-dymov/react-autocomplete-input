@@ -28,7 +28,7 @@ import 'react-autocomplete-input/dist/bundle.css';
 # Configurable Props
 *Note*: All props are optional.
 
-## Component : string
+## Component : string or func
 #### Default value: `"textarea"`
 Widget for rendering input field
 

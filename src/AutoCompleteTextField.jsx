@@ -15,7 +15,10 @@ const OPTION_LIST_Y_OFFSET = 10;
 const OPTION_LIST_MIN_WIDTH = 100;
 
 const propTypes = {
-  Component: PropTypes.string,
+  Component: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+  ]),
   defaultValue: PropTypes.string,
   disabled: PropTypes.bool,
   maxOptions: PropTypes.number,
