@@ -1,3 +1,6 @@
+### 21st February 2018 - 1.0.7
+- Component now can be also a function
+
 ### 3d February 2018 - 1.0.6
 - Some corner cases fixed for autcomplete selections
 
