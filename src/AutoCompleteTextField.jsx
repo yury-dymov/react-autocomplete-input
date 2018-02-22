@@ -139,7 +139,7 @@ class AutocompleteTextField extends React.Component {
       if (matchStart >= 0) {
         const matchedSlug = str.substring(matchStart, caret);
         const options = providedOptions.filter((slug) => {
-          const idx = slug.indexOf(matchedSlug);
+          const idx = slug.toLowerCase().indexOf(matchedSlug);
           return idx !== -1 && (matchAny || idx === 0);
         });
 
