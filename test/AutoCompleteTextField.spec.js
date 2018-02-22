@@ -143,6 +143,13 @@ describe('option list filtering', () => {
     component.find('textarea').simulate('change', createOnChangeEvent('@ABC'));
     expect(component.find('.react-autocomplete-input > li')).to.have.length(3);
   });
+
+  it('abc => 3 options including one uppercase', () => {
+    const component = mount(<TextField trigger="@" options={["aa", "ab", "abc", "abcd", "ABCDE"]} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@abc'));
+    expect(component.find('.react-autocomplete-input > li')).to.have.length(3);
+  });
 });
 
 describe('max options test', () => {
