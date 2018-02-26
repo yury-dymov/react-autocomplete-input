@@ -105,6 +105,10 @@ By default, after option is selected, it is inserted with following space. If us
 #### Default value: `'@'`
 Character or string, which triggers showing autocompletion option list. '' and '@@' are both valid triggers. Keep in mind that user have to input at least one extra character to make option list available if empty trigger is used.
 
+## minChars: number
+#### Default value: 0
+Only show autocompletion option list after this many characters have been typed after the trigger character.
+
 ## value : string
 #### Default value: `''`
 Widget supports both controlling options: by value and by state. If you explicitly pass `value` prop, you have to update it manually every time `onChange` event is emitted. If you don't pass `value` prop, then widget uses internal state for value manipulation.

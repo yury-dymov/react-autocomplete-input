@@ -101,6 +101,24 @@ describe('option list is shown for different trigger strings', () => {
   });
 });
 
+describe('option list is only shown if matched string is longer than minChars', () => {
+  it('does not trigger with minChars 1 and @', () => {
+    const component = mount(<TextField trigger="@" minChars={1} options={["aa", "ab"]} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@'));
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(0);
+  });
+
+  it('does trigger with minChars 1 and @a', () => {
+    const component = mount(<TextField trigger="@" minChars={1} options={["aa", "ab"]} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(1);
+  });
+});
+
 describe('option list appearance', () => {
   it('hide if no options available', () => {
     const component = mount(<TextField trigger="@" options={["aa", "ab"]} />);

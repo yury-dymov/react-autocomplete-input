@@ -29,6 +29,7 @@ const propTypes = {
   options: PropTypes.array,
   regex: PropTypes.string,
   matchAny: PropTypes.bool,
+  minChars: PropTypes.number,
   requestOnlyIfNoOptions: PropTypes.bool,
   spaceRemovers: PropTypes.array,
   trigger: PropTypes.string,
@@ -49,6 +50,7 @@ const defaultProps = {
   options: [],
   regex: '^[A-Za-z0-9\\-_]+$',
   matchAny: false,
+  minChars: 0,
   requestOnlyIfNoOptions: true,
   spaceRemovers: [',', '.', '!', '?'],
   trigger: '@',
@@ -298,7 +300,9 @@ class AutocompleteTextField extends React.Component {
         input.offsetLeft + rect.width - OPTION_LIST_MIN_WIDTH
       );
 
-      if (slug.options.length > 1 || (slug.options.length === 1 && slug.options[0].length !== slug.matchLength)) {
+      if (
+        slug.matchLength >= this.props.minChars &&
+        (slug.options.length > 1 || (slug.options.length === 1 && slug.options[0].length !== slug.matchLength))) {
         this.setState({ helperVisible: true, top, left, ...slug });
       } else {
         if (!this.props.requestOnlyIfNoOptions || !slug.options.length) {
