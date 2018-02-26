@@ -1,3 +1,7 @@
+### 25th February 2018 - 1.0.8
+- Correctly matching uppercase strings
+- `minChats` options added to control the minimum amount of inputed characters before showing autocomplete option list
+
 ### 21st February 2018 - 1.0.7
 - Component now can be also a function
 
