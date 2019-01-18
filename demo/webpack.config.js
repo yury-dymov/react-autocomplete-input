@@ -1,12 +1,17 @@
-var path    = require('path');
-var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var path = require('path');
+var webpack = require('webpack');
 
-module.exports = {
-  eval: 'eval-source-map',
+module.exports = {  
   entry: [
     './src'
   ],
+  module: {
+    rules: [
+      { test: /\.js?$/, loader: 'babel-loader', exclude: /node_modules/, query: { presets:  ["@babel/preset-env", "@babel/preset-react"] } },
+      { test: /\.css$/, use: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }), exclude: /node_modules/ }
+    ]
+  },
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js'
@@ -17,18 +22,12 @@ module.exports = {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-    new webpack.optimize.OccurenceOrderPlugin(),
     new ExtractTextPlugin('bundle.css')
   ],
-  module: {
-    loaders: [
-      { test: /\.jsx?$/, loader: 'babel', exclude: /node_modules/ },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader') }
-    ]
-  },
   resolve: {
-    root: path.join(__dirname, 'src'),
-    modulesDirectories: [ 'node_modules' ],
-    extensions: ['', '.js', '.jsx']
+    modules: [
+      path.join(__dirname, 'src'),
+      'node_modules'
+    ]
   }
 };

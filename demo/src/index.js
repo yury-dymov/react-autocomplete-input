@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { findDOMNode } from 'react-dom';
-import ReactDOM from 'react-dom';
+import ReactDOM, { findDOMNode } from 'react-dom';
 import TextField from '../../src/AutoCompleteTextField';
 
 import '../dist/bundle.css';
