@@ -8,8 +8,13 @@
       "ignoreUrls": true
     }],
     "no-mixed-operators": 0,
-    "no-plusplus": ["error", { allowForLoopAfterthoughts: true }],
-    "no-continue": 0
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "no-continue": 0,
+    "react/jsx-filename-extension": 0,
+    "react/no-find-dom-node": 0,
+    "react/forbid-foreign-prop-types": 0,
+    "jsx-a11y/click-events-have-key-events": 0,
+    "jsx-a11y/no-noninteractive-element-interactions": 0
   },
   "globals": {
     "window": true

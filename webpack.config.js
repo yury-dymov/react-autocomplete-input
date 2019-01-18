@@ -1,10 +1,9 @@
-var path          = require('path');
-var webpack       = require('webpack');
+var path = require('path');
+var webpack = require('webpack');
 var nodeExternals = require('webpack-node-externals');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  eval: 'eval-source-map',
   externals: [nodeExternals()],
   entry: [
     './src/AutoCompleteTextField'
@@ -20,18 +19,18 @@ module.exports = {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-    new webpack.optimize.OccurenceOrderPlugin(),
     new ExtractTextPlugin('bundle.css')
   ],
   module: {
-    loaders: [
-      { test: /\.jsx?$/, loader: 'babel', exclude: /node_modules/ },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader') }
+    rules: [
+      { test: /\.js?$/, use: ['babel-loader', 'eslint-loader'], exclude: /node_modules/ },
+      { test: /\.css$/, use: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }), exclude: /node_modules/ }
     ]
   },
   resolve: {
-    root: path.join(__dirname, 'src'),
-    modulesDirectories: [ 'node_modules' ],
-    extensions: ['', '.js', '.jsx']
+    modules: [
+      path.join(__dirname, 'src'),
+      'node_modules'
+    ]
   }
 };

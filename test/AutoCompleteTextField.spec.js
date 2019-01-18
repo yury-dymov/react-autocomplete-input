@@ -1,10 +1,12 @@
-import React                      from 'react';
-import { findDOMNode }            from 'react-dom';
-import chai, { expect }           from 'chai';
-import chaiEnzyme                 from 'chai-enzyme';
-import { shallow, mount, render } from 'enzyme';
-import jsdom                      from 'jsdom';
-import { spy }                    from 'sinon';
+import React from 'react';
+import chai, { expect } from 'chai';
+import chaiEnzyme from 'chai-enzyme';
+import { configure, mount, render } from 'enzyme';
+import jsdom from 'jsdom';
+import { spy } from 'sinon';
+import Adapter from 'enzyme-adapter-react-16';
+
+configure({ adapter: new Adapter() });
 
 const KEY_UP = 38;
 const KEY_DOWN = 40;
@@ -14,11 +16,11 @@ const KEY_ESCAPE = 27;
 
 chai.use(chaiEnzyme());
 
-const doc = jsdom.jsdom('<!doctype html><html><body><div id="app"></div></body></html>');
+const doc = new jsdom.JSDOM('<!doctype html><html><body><div id="app"></div></body></html>');
 
-global.document = doc;
-global.window = doc.defaultView;
-global.navigator = window.navigator;
+global.document = doc.window.document;
+global.window = doc.window;
+global.navigator = doc.window.navigator;
 
 // we need to define these two functions to satisfy textarea-caret and mitigate its bug
 global.window.getComputedStyle = () => { return {}; };

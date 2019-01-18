@@ -1,3 +1,6 @@
+### 17th January 2019 - 1.0.9
+- Deps update
+
 ### 25th February 2018 - 1.0.8
 - Correctly matching uppercase strings
 - `minChats` options added to control the minimum amount of inputed characters before showing autocomplete option list
