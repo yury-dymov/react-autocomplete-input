@@ -15,6 +15,7 @@ class App extends Component {
     this.handleRequestOnlyIfNoOptions = this.handleRequestOnlyIfNoOptions.bind(this);
     this.handleRequestOptions = this.handleRequestOptions.bind(this);
     this.handleSpaceRemoversChange = this.handleSpaceRemoversChange.bind(this);
+    this.handleSpacerChange = this.handleSpacerChange.bind(this);
     this.handleTriggerChange = this.handleTriggerChange.bind(this);
 
     this.state = {
@@ -24,6 +25,7 @@ class App extends Component {
       regex: '^[a-zA-Z0-9_\\-]+$',
       requestOnlyIfNoOptions: true,
       spaceRemovers: "[',', '.', '?', '!']",
+      spacer: " ",
       trigger: '@'
     };
   }
@@ -59,6 +61,10 @@ class App extends Component {
     this.setState({ spaceRemovers: e.target.value })
   }
 
+  handleSpacerChange(e) {
+    this.setState({ spacer: e.target.value })
+  }
+
   handleTriggerChange(e) {
     this.setState({ trigger: e.target.value })
   }
@@ -80,6 +86,7 @@ class App extends Component {
             regex={this.state.regex}
             requestOnlyIfNoOptions={this.state.requestOnlyIfNoOptions}
             spaceRemovers={eval(this.state.spaceRemovers)}
+            spacer={this.state.spacer}
             trigger={this.state.trigger}
           />
         </div>
@@ -99,6 +106,14 @@ class App extends Component {
           <p>Default value: [',', '.', '!', '?'].</p>
           <div className="field">
             <input onBlur={this.handleSpaceRemoversChange} defaultValue={this.state.spaceRemovers} />
+          </div>
+        </div>
+        <div className="option-block">
+          <h3>spacer : sting</h3>
+          <p>Character to add after selected option.</p>
+          <p>Default value: ' '.</p>
+          <div className="field">
+            <input onBlur={this.handleSpacerChange} defaultValue={this.state.spacer} />
           </div>
         </div>
         <div className="option-block">
