@@ -99,7 +99,11 @@ If `requestOnlyIfNoOptions` is true, then `onRequestOptions` called only if no o
 
 ## spaceRemovers : array
 #### Default value: `[',', '.', '!', '?']`
-By default, after option is selected, it is inserted with following space. If user inputs one of the characters from `spaceRemovers` array, then space is automatically removed. I.e. `@apple ,|` is automatically changed to `@apple, |`, where `|` represents caret.
+By default, after option is selected, it is inserted with following `spacer`. If user inputs one of the characters from `spaceRemovers` array, then `spacer` is automatically removed. I.e. `@apple ,|` is automatically changed to `@apple, |`, where `|` represents caret.
+
+## spacer : string
+#### Default value: `' '`
+Character which is inserted along with the selected option.
 
 ## trigger : string
 #### Default value: `'@'`

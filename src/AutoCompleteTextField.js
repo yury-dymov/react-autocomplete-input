@@ -32,6 +32,7 @@ const propTypes = {
   minChars: PropTypes.number,
   requestOnlyIfNoOptions: PropTypes.bool,
   spaceRemovers: PropTypes.arrayOf(PropTypes.string),
+  spacer: PropTypes.string,
   trigger: PropTypes.string,
   value: PropTypes.string,
   offsetX: PropTypes.number,
@@ -53,6 +54,7 @@ const defaultProps = {
   minChars: 0,
   requestOnlyIfNoOptions: true,
   spaceRemovers: [',', '.', '!', '?'],
+  spacer: ' ',
   trigger: '@',
   offsetX: 0,
   offsetY: 0,
@@ -177,6 +179,7 @@ class AutocompleteTextField extends React.Component {
       onChange,
       options,
       spaceRemovers,
+      spacer,
       value,
     } = this.props;
 
@@ -197,12 +200,12 @@ class AutocompleteTextField extends React.Component {
     }
 
     // '@wonderjenny ,|' -> '@wonderjenny, |'
-    if (this.enableSpaceRemovers && spaceRemovers.length && str.length > 2) {
+    if (this.enableSpaceRemovers && spaceRemovers.length && str.length > 2 && spacer.length) {
       for (let i = 0; i < Math.max(old.length, str.length); ++i) {
         if (old[i] !== str[i]) {
           if (
             i >= 2
-            && str[i - 1] === ' '
+            && str[i - 1] === spacer
             && spaceRemovers.indexOf(str[i - 2]) === -1
             && spaceRemovers.indexOf(str[i]) !== -1
             && this.getMatch(str.substring(0, i - 2).toLowerCase(), caret - 3, options)
@@ -273,6 +276,7 @@ class AutocompleteTextField extends React.Component {
 
   handleSelection(idx) {
     const { matchStart, matchLength, options } = this.state;
+    const { spacer } = this.props;
 
     const slug = options[idx];
     const value = this.recentValue;
@@ -281,7 +285,7 @@ class AutocompleteTextField extends React.Component {
 
     const event = { target: findDOMNode(this.refInput) };
 
-    event.target.value = `${part1}${slug} ${part2}`;
+    event.target.value = `${part1}${slug}${spacer}${part2}`;
     this.handleChange(event);
 
     this.resetHelper();

@@ -282,6 +282,52 @@ describe('spaceRemovers', () => {
   });
 });
 
+describe('spacer', () => {
+    it('spacer is inserted after completion', () => {
+        const component = mount(<TextField spacer="x" options={["aa", "ab"]} />);
+
+        component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+        component.setState({ helperVisible: true });
+        component.find('li.active').simulate('click');
+    
+        expect(component.find('textarea')).to.have.html().match(/@aax/);
+    })
+
+    it('empty spacer is supported', () => {
+        const component = mount(<TextField spacer="" options={["aa", "ab"]} />);
+
+        component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+        component.setState({ helperVisible: true });
+        component.find('li.active').simulate('click');
+    
+        expect(component.find('textarea')).to.have.html().match(/>@aa</);
+    })
+    
+    it('spaceRemovers handle custom spacer', () => {
+        const component = mount(<TextField spaceRemovers={[';']} spacer="x" options={["aa", "ab"]} />);
+
+        component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+        component.setState({ helperVisible: true });
+    
+        component.find('li.active').simulate('click');
+        component.find('textarea').simulate('change', createOnChangeEvent('@aax;'));
+    
+        expect(component.find('textarea')).to.have.html().match(/@aa;x/);
+    })
+    
+    it('spaceRemovers handle empty spacer', () => {
+        const component = mount(<TextField spaceRemovers={[';']} spacer="" options={["aa", "ab"]} />);
+
+        component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+        component.setState({ helperVisible: true });
+    
+        component.find('li.active').simulate('click');
+        component.find('textarea').simulate('change', createOnChangeEvent('@aa;'));
+    
+        expect(component.find('textarea')).to.have.html().match(/@aa;/);
+    })
+})
+
 describe('onRequestOptions and requestOnlyIfNoOptions', () => {
   it('expect to call requestOptions with full string after trigger', () => {
     function handleRequestOptions(str) {
