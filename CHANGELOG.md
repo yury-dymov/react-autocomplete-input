@@ -1,3 +1,6 @@
+### 26th February 2019 - 1.0.10
+- Custom spacer support (https://github.com/yury-dymov/react-autocomplete-input/issues/28)
+
 ### 17th January 2019 - 1.0.9
 - Deps update
 
