@@ -1,3 +1,6 @@
+### 17th June 2019 - 1.0.11
+- Updated vulnerable deps
+
 ### 26th February 2019 - 1.0.10
 - Custom spacer support (https://github.com/yury-dymov/react-autocomplete-input/issues/28)
 
