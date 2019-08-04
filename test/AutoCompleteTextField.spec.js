@@ -78,6 +78,14 @@ describe('option list is shown for different trigger strings', () => {
     expect(component.find('.react-autocomplete-input')).to.have.length(1);
   });
 
+  it('trigger contains upper-case characters', () => {
+    const component = mount(<TextField trigger="TRIGGER" options={["aa", "ab"]} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('TRIGGER'));
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(1);
+  });
+
   it('trigger empty only with first character 1/2', () => {
     const component = mount(<TextField trigger="" options={["aa", "ab"]} />);
 

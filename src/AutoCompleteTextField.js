@@ -147,7 +147,7 @@ class AutocompleteTextField extends React.Component {
       if (matchStart >= 0) {
         const matchedSlug = str.substring(matchStart, caret);
         const options = providedOptions.filter((slug) => {
-          const idx = slug.toLowerCase().indexOf(matchedSlug);
+          const idx = slug.toLowerCase().indexOf(matchedSlug.toLowerCase());
           return idx !== -1 && (matchAny || idx === 0);
         });
 
@@ -208,7 +208,7 @@ class AutocompleteTextField extends React.Component {
             && str[i - 1] === spacer
             && spaceRemovers.indexOf(str[i - 2]) === -1
             && spaceRemovers.indexOf(str[i]) !== -1
-            && this.getMatch(str.substring(0, i - 2).toLowerCase(), caret - 3, options)
+            && this.getMatch(str.substring(0, i - 2), caret - 3, options)
           ) {
             const newValue = (`${str.slice(0, i - 1)}${str.slice(i, i + 1)}${str.slice(i - 1, i)}${str.slice(i + 1)}`);
 
@@ -302,7 +302,7 @@ class AutocompleteTextField extends React.Component {
   updateHelper(str, caret, options) {
     const input = findDOMNode(this.refInput);
 
-    const slug = this.getMatch(str.toLowerCase(), caret, options);
+    const slug = this.getMatch(str, caret, options);
 
     if (slug) {
       const caretPos = getCaretCoordinates(input, caret);
