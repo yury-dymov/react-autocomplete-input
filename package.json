@@ -48,7 +48,7 @@
     "extract-text-webpack-plugin": "^3.0.2",
     "jsdom": "^13.1.0",
     "mocha": "^5.2.0",
-    "nyc": "^13.1.0",
+    "nyc": "^14.1.1",
     "react": "^16.7.0",
     "react-addons-test-utils": "^15.6.2",
     "react-dom": "^16.7.0",
