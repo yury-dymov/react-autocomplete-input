@@ -109,7 +109,7 @@ class App extends Component {
           </div>
         </div>
         <div className="option-block">
-          <h3>spacer : sting</h3>
+          <h3>spacer : string</h3>
           <p>Character to add after selected option.</p>
           <p>Default value: ' '.</p>
           <div className="field">
