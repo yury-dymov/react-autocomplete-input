@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
-import { findDOMNode } from 'react-dom';
 import getCaretCoordinates from 'textarea-caret';
 import getInputSelection, { setCaretPosition } from 'get-input-selection';
 import './AutoCompleteTextField.css';
@@ -89,18 +88,19 @@ class AutocompleteTextField extends React.Component {
 
     this.recentValue = props.defaultValue;
     this.enableSpaceRemovers = false;
+    this.refInput = createRef();
   }
 
   componentDidMount() {
     window.addEventListener('resize', this.handleResize);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     const { options } = this.props;
     const { caret } = this.state;
 
-    if (options.length !== nextProps.options.length) {
-      this.updateHelper(this.recentValue, caret, nextProps.options);
+    if (options.length !== prevProps.options.length) {
+      this.updateHelper(this.recentValue, caret, options);
     }
   }
 
@@ -213,7 +213,7 @@ class AutocompleteTextField extends React.Component {
             const newValue = (`${str.slice(0, i - 1)}${str.slice(i, i + 1)}${str.slice(i - 1, i)}${str.slice(i + 1)}`);
 
             this.updateCaretPosition(i + 1);
-            findDOMNode(this.refInput).value = newValue;
+            this.refInput.current.value = newValue;
 
             if (!value) {
               this.setState({ value: newValue });
@@ -283,7 +283,7 @@ class AutocompleteTextField extends React.Component {
     const part1 = value.substring(0, matchStart);
     const part2 = value.substring(matchStart + matchLength);
 
-    const event = { target: findDOMNode(this.refInput) };
+    const event = { target: this.refInput.current };
 
     event.target.value = `${part1}${slug}${spacer}${part2}`;
     this.handleChange(event);
@@ -296,11 +296,11 @@ class AutocompleteTextField extends React.Component {
   }
 
   updateCaretPosition(caret) {
-    this.setState({ caret }, () => setCaretPosition(findDOMNode(this.refInput), caret));
+    this.setState({ caret }, () => setCaretPosition(this.refInput.current, caret));
   }
 
   updateHelper(str, caret, options) {
-    const input = findDOMNode(this.refInput);
+    const input = this.refInput.current;
 
     const slug = this.getMatch(str, caret, options);
 
@@ -434,7 +434,7 @@ class AutocompleteTextField extends React.Component {
           onBlur={onBlur}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}
-          ref={(c) => { this.refInput = c; }}
+          ref={this.refInput}
           value={val}
           {...propagated}
         />
