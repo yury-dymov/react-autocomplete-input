@@ -607,6 +607,7 @@ describe('updating props', () => {
     expect(component.find('.react-autocomplete-input > li')).to.have.length(2);
 
     component.setProps({ options: ["aa", "ab", "ac"] });
+    component.update(); // needed because componentDidUpdate re-renders with updated values
 
     expect(component.find('.react-autocomplete-input > li')).to.have.length(3);
   });
