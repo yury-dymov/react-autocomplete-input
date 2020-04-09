@@ -13,6 +13,7 @@ const KEY_DOWN = 40;
 const KEY_RETURN = 13;
 const KEY_ENTER = 14;
 const KEY_ESCAPE = 27;
+const KEY_TAB = 9;
 
 chai.use(chaiEnzyme());
 
@@ -297,7 +298,7 @@ describe('spacer', () => {
         component.find('textarea').simulate('change', createOnChangeEvent('@a'));
         component.setState({ helperVisible: true });
         component.find('li.active').simulate('click');
-    
+
         expect(component.find('textarea')).to.have.html().match(/@aax/);
     })
 
@@ -307,31 +308,31 @@ describe('spacer', () => {
         component.find('textarea').simulate('change', createOnChangeEvent('@a'));
         component.setState({ helperVisible: true });
         component.find('li.active').simulate('click');
-    
+
         expect(component.find('textarea')).to.have.html().match(/>@aa</);
     })
-    
+
     it('spaceRemovers handle custom spacer', () => {
         const component = mount(<TextField spaceRemovers={[';']} spacer="x" options={["aa", "ab"]} />);
 
         component.find('textarea').simulate('change', createOnChangeEvent('@a'));
         component.setState({ helperVisible: true });
-    
+
         component.find('li.active').simulate('click');
         component.find('textarea').simulate('change', createOnChangeEvent('@aax;'));
-    
+
         expect(component.find('textarea')).to.have.html().match(/@aa;x/);
     })
-    
+
     it('spaceRemovers handle empty spacer', () => {
         const component = mount(<TextField spaceRemovers={[';']} spacer="" options={["aa", "ab"]} />);
 
         component.find('textarea').simulate('change', createOnChangeEvent('@a'));
         component.setState({ helperVisible: true });
-    
+
         component.find('li.active').simulate('click');
         component.find('textarea').simulate('change', createOnChangeEvent('@aa;'));
-    
+
         expect(component.find('textarea')).to.have.html().match(/@aa;/);
     })
 })
@@ -470,6 +471,20 @@ describe('selecting option from list', () => {
     expect(component.find('.react-autocomplete-input')).to.have.length(1);
 
     component.find('textarea').simulate('keyDown', { keyCode: KEY_ENTER });
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(0);
+    expect(component.find('textarea')).to.have.html().match(/@aa/);
+  });
+
+  it('tab => hide options, update textarea', () => {
+    const component = mount(<TextField options={["aa", "ab"]} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@'));
+    component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(1);
+
+    component.find('textarea').simulate('keyDown', { keyCode: KEY_TAB });
 
     expect(component.find('.react-autocomplete-input')).to.have.length(0);
     expect(component.find('textarea')).to.have.html().match(/@aa/);

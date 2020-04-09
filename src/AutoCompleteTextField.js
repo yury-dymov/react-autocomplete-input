@@ -10,6 +10,7 @@ const KEY_DOWN = 40;
 const KEY_RETURN = 13;
 const KEY_ENTER = 14;
 const KEY_ESCAPE = 27;
+const KEY_TAB = 9;
 
 const OPTION_LIST_Y_OFFSET = 10;
 const OPTION_LIST_MIN_WIDTH = 100;
@@ -258,6 +259,7 @@ class AutocompleteTextField extends React.Component {
           break;
         case KEY_ENTER:
         case KEY_RETURN:
+        case KEY_TAB:
           event.preventDefault();
           this.handleSelection(selection);
           break;
