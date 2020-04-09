@@ -1,3 +1,8 @@
+### 9th April 2020 - 1.0.13
+- Deps update
+- Replaced componentWillRecieveProps and findDOMNode with modern APIs https://github.com/yury-dymov/react-autocomplete-input/pull/41
+- Added autocomplete on tab - https://github.com/yury-dymov/react-autocomplete-input/pull/42
+
 ### 17th June 2019 - 1.0.11
 - Updated vulnerable deps
 
