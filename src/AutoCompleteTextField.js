@@ -17,7 +17,7 @@ const OPTION_LIST_MIN_WIDTH = 100;
 const propTypes = {
   Component: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.func,
+    PropTypes.elementType,
   ]),
   defaultValue: PropTypes.string,
   disabled: PropTypes.bool,
