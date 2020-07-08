@@ -1,3 +1,6 @@
+### 8th July 2020 - 1.0.14
+- Use PropTypes.elementType to support wrapped components - (https://github.com/yury-dymov/react-autocomplete-input/pull/44)
+
 ### 9th April 2020 - 1.0.13
 - Deps update
 - Replaced componentWillRecieveProps and findDOMNode with modern APIs https://github.com/yury-dymov/react-autocomplete-input/pull/41
