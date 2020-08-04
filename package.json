@@ -8,7 +8,8 @@
     "clean": "rimraf dist coverage lib",
     "lint": "eslint src --ext .js",
     "test": "mocha --require @babel/register",
-    "coverage": "NODE_ENV=production webpack && nyc _mocha --require @babel/register && NODE_ENV=production webpack -p"
+    "coverage": "NODE_ENV=production webpack && nyc _mocha --require @babel/register && NODE_ENV=production webpack -p",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
