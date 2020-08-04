@@ -37,6 +37,7 @@ const propTypes = {
   value: PropTypes.string,
   offsetX: PropTypes.number,
   offsetY: PropTypes.number,
+  passThroughEnter: PropTypes.bool,
 };
 
 const defaultProps = {
@@ -59,6 +60,7 @@ const defaultProps = {
   offsetX: 0,
   offsetY: 0,
   value: null,
+  passThroughEnter: false,
 };
 
 class AutocompleteTextField extends React.Component {
@@ -241,7 +243,7 @@ class AutocompleteTextField extends React.Component {
 
   handleKeyDown(event) {
     const { helperVisible, options, selection } = this.state;
-    const { onKeyDown } = this.props;
+    const { onKeyDown, passThroughEnter } = this.props;
 
     if (helperVisible) {
       switch (event.keyCode) {
@@ -259,8 +261,10 @@ class AutocompleteTextField extends React.Component {
           break;
         case KEY_ENTER:
         case KEY_RETURN:
+          if (!passThroughEnter) { event.preventDefault(); }
+          this.handleSelection(selection);
+          break;
         case KEY_TAB:
-          event.preventDefault();
           this.handleSelection(selection);
           break;
         default:
