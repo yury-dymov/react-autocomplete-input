@@ -9,7 +9,7 @@
     "lint": "eslint src --ext .js",
     "test": "mocha --require @babel/register",
     "coverage": "NODE_ENV=production webpack && nyc _mocha --require @babel/register && NODE_ENV=production webpack -p",
-    "prepare": "npm run build"
+    "prepare": "NODE_ENV=production webpack -p"
   },
   "repository": {
     "type": "git",
