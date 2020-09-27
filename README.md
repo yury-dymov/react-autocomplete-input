@@ -44,6 +44,10 @@ Disables widget, i.e. during form submission
 #### Default value: `6`
 Defines how many options can be listed simultaneously. Show all matched options if maxOptions equals 0.
 
+## callback : func
+#### Default value: `(value) => {}`
+Callback invoked upon selecting an option. Receives selection value as a parameter.
+
 ## onRequestOptions : func
 #### Default value: `() => {}`
 Callback for requesting new options to support lazy-loading. If `requestOnlyIfNoOptions` is true, then `onRequestOptions` called only if no options are currently available. Otherwise `onRequestOptions` is called every time text is changed and `trigger` is found.
