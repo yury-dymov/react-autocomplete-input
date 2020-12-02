@@ -82,6 +82,7 @@ class App extends Component {
             style={{ width: '300px', height: '100px', display: 'block' }}
             maxOptions={parseInt(this.state.maxOptions, 10)}
             onRequestOptions={this.handleRequestOptions}
+            onSelect={v => alert(`value selected: ${v}`)}
             options={this.state.options}
             regex={this.state.regex}
             requestOnlyIfNoOptions={this.state.requestOnlyIfNoOptions}

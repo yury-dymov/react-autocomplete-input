@@ -1,3 +1,8 @@
+### 2nd December 2020 - 1.0.15
+- Introduced new `onSelect` callback — (https://github.com/yury-dymov/react-autocomplete-input/pull/53)
+- Added `passThroughEnter` prop - to override behavior on `Enter` key press
+- Updated deps and dev deps
+
 ### 8th July 2020 - 1.0.14
 - Use PropTypes.elementType to support wrapped components - (https://github.com/yury-dymov/react-autocomplete-input/pull/44)
 

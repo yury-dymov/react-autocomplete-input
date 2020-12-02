@@ -1,9 +1,12 @@
-var path = require('path');
-var webpack = require('webpack');
-var nodeExternals = require('webpack-node-externals');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
+const webpack = require('webpack');
+const nodeExternals = require('webpack-node-externals');
+const ESLintPlugin = require('eslint-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 
 module.exports = {
+  externalsPresets: { node: true },
   externals: [nodeExternals()],
   entry: [
     './src/AutoCompleteTextField'
@@ -19,12 +22,13 @@ module.exports = {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-    new ExtractTextPlugin('bundle.css')
+    new MiniCssExtractPlugin({ filename: 'bundle.css' }),
+    new ESLintPlugin()
   ],
   module: {
     rules: [
-      { test: /\.js?$/, use: ['babel-loader', 'eslint-loader'], exclude: /node_modules/ },
-      { test: /\.css$/, use: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }), exclude: /node_modules/ }
+      { test: /\.js?$/, use: ['babel-loader'], exclude: /node_modules/ },
+      { test: /\.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader'], exclude: /node_modules/ }
     ]
   },
   resolve: {

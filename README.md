@@ -44,8 +44,8 @@ Disables widget, i.e. during form submission
 #### Default value: `6`
 Defines how many options can be listed simultaneously. Show all matched options if maxOptions equals 0.
 
-## callback : func
-#### Default value: `(value) => {}`
+## onSelect : func
+#### Default value: `() => {}`
 Callback invoked upon selecting an option. Receives selection value as a parameter.
 
 ## onRequestOptions : func
@@ -123,8 +123,8 @@ Widget supports both controlling options: by value and by state. If you explicit
 
 ## passThroughEnter: boolean
 #### Default value: false
-If true, then an enter / return keypress is passed on (after being used to autocomplete). 
-Useful if you want to have the form submit as soon as a single value is chosen. 
+If true, then an enter / return keypress is passed on (after being used to autocomplete).
+Useful if you want to have the form submit as soon as a single value is chosen.
 
 # Styles Customization
 By default styles are defined in `"react-autocomplete-input/dist/bundle.css"`, however, you may define your custom styles instead for following entities:
