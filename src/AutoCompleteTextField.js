@@ -26,6 +26,7 @@ const propTypes = {
   onChange: PropTypes.func,
   onKeyDown: PropTypes.func,
   onRequestOptions: PropTypes.func,
+  callback: PropTypes.func,
   options: PropTypes.arrayOf(PropTypes.string),
   regex: PropTypes.string,
   matchAny: PropTypes.bool,
@@ -49,6 +50,7 @@ const defaultProps = {
   onChange: () => { },
   onKeyDown: () => { },
   onRequestOptions: () => { },
+  callback: (value) => { },
   options: [],
   regex: '^[A-Za-z0-9\\-_]+$',
   matchAny: false,
@@ -177,7 +179,7 @@ class AutocompleteTextField extends React.Component {
     return false;
   }
 
-  handleChange(e) {
+  handleChange(e, invokeCallback) {
     const {
       onChange,
       options,
@@ -196,7 +198,7 @@ class AutocompleteTextField extends React.Component {
 
     this.recentValue = str;
 
-    this.setState({ caret, value: e.target.value });
+    this.setState({ caret, value: e.target.value }, () => invokeCallback && this.props.callback(this.state.value));
 
     if (!str.length || !caret) {
       return onChange(e.target.value);
@@ -292,7 +294,7 @@ class AutocompleteTextField extends React.Component {
     const event = { target: this.refInput.current };
 
     event.target.value = `${part1}${slug}${spacer}${part2}`;
-    this.handleChange(event);
+    this.handleChange(event, true);
 
     this.resetHelper();
 
