@@ -117,6 +117,11 @@ Only show autocompletion option list after this many characters have been typed 
 #### Default value: `''`
 Widget supports both controlling options: by value and by state. If you explicitly pass `value` prop, you have to update it manually every time `onChange` event is emitted. If you don't pass `value` prop, then widget uses internal state for value manipulation.
 
+## passThroughEnter: boolean
+#### Default value: false
+If true, then an enter / return keypress is passed on (after being used to autocomplete). 
+Useful if you want to have the form submit as soon as a single value is chosen. 
+
 # Styles Customization
 By default styles are defined in `"react-autocomplete-input/dist/bundle.css"`, however, you may define your custom styles instead for following entities:
 
