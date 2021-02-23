@@ -27,14 +27,20 @@ const propTypes = {
   onKeyDown: PropTypes.func,
   onRequestOptions: PropTypes.func,
   onSelect: PropTypes.func,
-  options: PropTypes.arrayOf(PropTypes.string),
+  options: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.arrayOf(PropTypes.string),
+  ]),
   regex: PropTypes.string,
   matchAny: PropTypes.bool,
   minChars: PropTypes.number,
   requestOnlyIfNoOptions: PropTypes.bool,
   spaceRemovers: PropTypes.arrayOf(PropTypes.string),
   spacer: PropTypes.string,
-  trigger: PropTypes.string,
+  trigger: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+  ]),
   value: PropTypes.string,
   offsetX: PropTypes.number,
   offsetY: PropTypes.number,
@@ -70,6 +76,7 @@ class AutocompleteTextField extends React.Component {
     super(props);
 
     this.isTrigger = this.isTrigger.bind(this);
+    this.arrayTriggerMatch = this.arrayTriggerMatch.bind(this);
     this.getMatch = this.getMatch.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -116,58 +123,97 @@ class AutocompleteTextField extends React.Component {
   getMatch(str, caret, providedOptions) {
     const { trigger, matchAny, regex } = this.props;
     const re = new RegExp(regex);
-    const triggerLength = trigger.length;
-    const triggerMatch = trigger.match(re);
 
-    for (let i = caret - 1; i >= 0; --i) {
-      const substr = str.substring(i, caret);
-      const match = substr.match(re);
-      let matchStart = -1;
+    let triggers = trigger;
+    if (!Array.isArray(triggers)) {
+      triggers = new Array(trigger);
+    }
+    triggers.sort();
 
-      if (triggerLength > 0) {
-        const triggerIdx = triggerMatch ? i : i - triggerLength + 1;
+    const providedOptionsObject = providedOptions;
+    if (Array.isArray(providedOptions)) {
+      triggers.forEach((triggerStr) => {
+        providedOptionsObject[triggerStr] = providedOptions;
+      });
+    }
 
-        if (triggerIdx < 0) { // out of input
-          return null;
+    const triggersMatch = this.arrayTriggerMatch(triggers, re);
+    let slugData = null;
+
+    for (let triggersIndex = 0; triggersIndex < triggersMatch.length; triggersIndex++) {
+      const { triggerStr, triggerMatch, triggerLength } = triggersMatch[triggersIndex];
+
+      for (let i = caret - 1; i >= 0; --i) {
+        const substr = str.substring(i, caret);
+        const match = substr.match(re);
+        let matchStart = -1;
+
+        if (triggerLength > 0) {
+          const triggerIdx = triggerMatch ? i : i - triggerLength + 1;
+
+          if (triggerIdx < 0) { // out of input
+            return slugData;
+          }
+
+          if (this.isTrigger(triggerStr, str, triggerIdx)) {
+            matchStart = triggerIdx + triggerLength;
+          }
+
+          if (!match && matchStart < 0) {
+            return slugData;
+          }
+        } else {
+          if (match && i > 0) { // find first non-matching character or begin of input
+            continue;
+          }
+          matchStart = i === 0 && match ? 0 : i + 1;
+
+          if (caret - matchStart === 0) { // matched slug is empty
+            return slugData;
+          }
         }
 
-        if (this.isTrigger(str, triggerIdx)) {
-          matchStart = triggerIdx + triggerLength;
+        if (matchStart >= 0) {
+          const triggerOptions = providedOptionsObject[triggerStr];
+          if (triggerOptions == null) {
+            continue;
+          }
+
+          const matchedSlug = str.substring(matchStart, caret);
+
+          const options = triggerOptions.filter((slug) => {
+            const idx = slug.toLowerCase().indexOf(matchedSlug.toLowerCase());
+            return idx !== -1 && (matchAny || idx === 0);
+          });
+
+          const matchLength = matchedSlug.length;
+
+          if (slugData === null) {
+            slugData = { matchStart, matchLength, options };
+          }
+          else {
+            slugData = {
+              ...slugData, matchStart, matchLength, options,
+            };
+          }
         }
-
-        if (!match && matchStart < 0) {
-          return null;
-        }
-      } else {
-        if (match && i > 0) { // find first non-matching character or begin of input
-          continue;
-        }
-        matchStart = i === 0 && match ? 0 : i + 1;
-
-        if (caret - matchStart === 0) { // matched slug is empty
-          return null;
-        }
-      }
-
-      if (matchStart >= 0) {
-        const matchedSlug = str.substring(matchStart, caret);
-        const options = providedOptions.filter((slug) => {
-          const idx = slug.toLowerCase().indexOf(matchedSlug.toLowerCase());
-          return idx !== -1 && (matchAny || idx === 0);
-        });
-
-        const matchLength = matchedSlug.length;
-
-        return { matchStart, matchLength, options };
       }
     }
 
-    return null;
+    return slugData;
   }
 
-  isTrigger(str, i) {
-    const { trigger } = this.props;
+  arrayTriggerMatch(triggers, re) {
+    const triggersMatch = triggers.map((trigger) => ({
+      triggerStr: trigger,
+      triggerMatch: trigger.match(re),
+      triggerLength: trigger.length,
+    }));
 
+    return triggersMatch;
+  }
+
+  isTrigger(trigger, str, i) {
     if (!trigger || !trigger.length) {
       return true;
     }
@@ -324,7 +370,6 @@ class AutocompleteTextField extends React.Component {
       );
 
       const { minChars, onRequestOptions, requestOnlyIfNoOptions } = this.props;
-
       if (
         slug.matchLength >= minChars
         && (

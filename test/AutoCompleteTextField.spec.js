@@ -79,6 +79,38 @@ describe('option list is shown for different trigger strings', () => {
     expect(component.find('.react-autocomplete-input')).to.have.length(1);
   });
 
+  it('trigger [@]', () => {
+    const component = mount(<TextField trigger={["@"]} options={["aa", "ab"]} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@'));
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(1);
+  });
+
+  it('trigger [@@]', () => {
+    const component = mount(<TextField trigger={["@@"]} options={["aa", "ab"]} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@'));
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(0);
+  });
+
+  it('trigger [@, @@] 1/2', () => {
+    const component = mount(<TextField trigger={["@", "@@"]} options={["ar", "az"]} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@'));
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(1);
+  });
+
+  it('trigger [@, @@] 2/2', () => {
+    const component = mount(<TextField trigger={["@", "@@"]} options={["aa", "ab"]} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@@'));
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(1);
+  });
+
   it('trigger contains upper-case characters', () => {
     const component = mount(<TextField trigger="TRIGGER" options={["aa", "ab"]} />);
 
@@ -104,7 +136,15 @@ describe('option list is shown for different trigger strings', () => {
   });
 
   it('trigger empty, option list should appear if first letter matched', () => {
-    const component = mount(<TextField options={["aa", "ab"]} trigger="" />);
+    const component = mount(<TextField trigger="" options={["aa", "ab"]} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('a'));
+
+    expect(component.find('.react-autocomplete-input > li')).to.have.length(2);
+  });
+
+  it('trigger array of empty string, option list should appear if first letter matched', () => {
+    const component = mount(<TextField trigger={[""]} options={{"": ["aa", "ab"]}} />);
 
     component.find('textarea').simulate('change', createOnChangeEvent('a'));
 
@@ -121,8 +161,24 @@ describe('option list is only shown if matched string is longer than minChars', 
     expect(component.find('.react-autocomplete-input')).to.have.length(0);
   });
 
+  it('does not trigger with minChars 1 and @ with trigger [@]', () => {
+    const component = mount(<TextField trigger={["@"]} minChars={1} options={["aa", "ab"]} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@'));
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(0);
+  });
+
   it('does trigger with minChars 1 and @a', () => {
     const component = mount(<TextField trigger="@" minChars={1} options={["aa", "ab"]} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(1);
+  });
+
+  it('does trigger with minChars 1 and @a with trigger [@]', () => {
+    const component = mount(<TextField trigger={["@"]} minChars={1} options={{"@": ["aa", "ab"]}} />);
 
     component.find('textarea').simulate('change', createOnChangeEvent('@a'));
 
@@ -133,6 +189,16 @@ describe('option list is only shown if matched string is longer than minChars', 
 describe('option list appearance', () => {
   it('hide if no options available', () => {
     const component = mount(<TextField trigger="@" options={["aa", "ab"]} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+    expect(component.find('.react-autocomplete-input')).to.have.length(1);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@ad'));
+    expect(component.find('.react-autocomplete-input')).to.have.length(0);
+  });
+
+  it('hide if no options available with trigger [@]', () => {
+    const component = mount(<TextField trigger={["@"]} options={["aa", "ab"]} />);
 
     component.find('textarea').simulate('change', createOnChangeEvent('@a'));
     expect(component.find('.react-autocomplete-input')).to.have.length(1);
@@ -179,6 +245,20 @@ describe('option list filtering', () => {
     component.find('textarea').simulate('change', createOnChangeEvent('@abc'));
     expect(component.find('.react-autocomplete-input > li')).to.have.length(3);
   });
+
+  it('abc => 3 options including one uppercase', () => {
+    const component = mount(<TextField trigger={["@"]} options={{"@":["aa", "ab", "abc", "abcd", "ABCDE"]}} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@abc'));
+    expect(component.find('.react-autocomplete-input > li')).to.have.length(3);
+  });
+
+  it('abc => 3 options including one uppercase', () => {
+    const component = mount(<TextField trigger={["@", "@@"]} options={{"@":["aa", "ab"], "@@":["abc", "abcd", "ABCDE"]}} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@@abc'));
+    expect(component.find('.react-autocomplete-input > li')).to.have.length(3);
+  });
 });
 
 describe('max options test', () => {
@@ -198,10 +278,26 @@ describe('max options test', () => {
     expect(component.find('.react-autocomplete-input > li')).to.have.length(3);
   });
 
+  it('options: 5, maxOptions: 3 => 3 options', () => {
+    const component = mount(<TextField trigger={["@", "@@"]} options={{"@": ["aa", "ab", "abc", "abcd", "abcde"], "@@":["ab, ac"]}} maxOptions={3} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+
+    expect(component.find('.react-autocomplete-input > li')).to.have.length(3);
+  });
+
   it('options: 10, maxOptions: 0 => 10 options', () => {
     const component = mount(<TextField trigger="@" options={["aa", "ab", "abc", "abcd", "abcde", "ae", "af", "ag", "ah", "az"]} maxOptions={0} />);
 
     component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+
+    expect(component.find('.react-autocomplete-input > li')).to.have.length(10);
+  });
+
+  it('options: 10, maxOptions: 0 => 10 options', () => {
+    const component = mount(<TextField trigger={["@", "@@"]} options={{"@@": ["aa", "ab", "abc", "abcd", "abcde", "ae", "af", "ag", "ah", "az"]}} maxOptions={0} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@@a'));
 
     expect(component.find('.react-autocomplete-input > li')).to.have.length(10);
   });
