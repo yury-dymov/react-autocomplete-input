@@ -469,7 +469,7 @@ class AutocompleteTextField extends React.Component {
     const { value: stateValue } = this.state;
 
     const propagated = Object.assign({}, rest);
-    Object.keys(this.constructor.propTypes).forEach((k) => { delete propagated[k]; });
+    Object.keys(propTypes).forEach((k) => { delete propagated[k]; });
 
     let val = '';
 
