@@ -152,7 +152,7 @@ class AutocompleteTextField extends React.Component {
           const triggerIdx = triggerMatch ? i : i - triggerLength + 1;
 
           if (triggerIdx < 0) { // out of input
-            continue
+            break;
           }
 
           if (this.isTrigger(triggerStr, str, triggerIdx)) {
@@ -160,7 +160,7 @@ class AutocompleteTextField extends React.Component {
           }
 
           if (!match && matchStart < 0) {
-            continue
+            break;
           }
         } else {
           if (match && i > 0) { // find first non-matching character or begin of input
@@ -169,7 +169,7 @@ class AutocompleteTextField extends React.Component {
           matchStart = i === 0 && match ? 0 : i + 1;
 
           if (caret - matchStart === 0) { // matched slug is empty
-            continue
+            break;
           }
         }
 
@@ -469,7 +469,7 @@ class AutocompleteTextField extends React.Component {
     const { value: stateValue } = this.state;
 
     const propagated = Object.assign({}, rest);
-    Object.keys(propTypes).forEach((k) => { delete propagated[k]; });
+    Object.keys(this.constructor.propTypes).forEach((k) => { delete propagated[k]; });
 
     let val = '';
 
