@@ -19,6 +19,15 @@ import 'react-autocomplete-input/dist/bundle.css';
 <TextInput options={["apple", "apricot", "banana", "carrot"]} />
 ```
 
+# Multiple Triggers and Options Example
+```JavaScript
+import TextInput from 'react-autocomplete-input';
+import 'react-autocomplete-input/dist/bundle.css';
+
+<TextField trigger={["@", "@@"]} options={{"@": ["aa", "ab", "abc", "abcd"], "@@": ["az", "ar"]}} />
+```
+Here for trigger `@` first set of options will resolve and for `@@` — second set.
+
 # Features
 * Supports both keyboard and mouse for option selection
 * Supports responsiveness and works on every device

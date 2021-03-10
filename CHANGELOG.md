@@ -1,3 +1,6 @@
+### 9th March 2021 - 1.0.16
+- Props to LazaroHurtado, now library supports several sets of triggers and options simultaneously (https://github.com/yury-dymov/react-autocomplete-input/pull/54)
+
 ### 2nd December 2020 - 1.0.15
 - Introduced new `onSelect` callback — (https://github.com/yury-dymov/react-autocomplete-input/pull/53)
 - Added `passThroughEnter` prop - to override behavior on `Enter` key press
