@@ -1,6 +1,6 @@
 {
   "name": "react-autocomplete-input",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Autocomplete input field for React",
   "main": "dist/bundle.js",
   "scripts": {
@@ -36,7 +36,6 @@
     "chai": "^4.2.0",
     "chai-enzyme": "^1.0.0-beta.1",
     "cheerio": "^0.22.0",
-    "core-js": "3",
     "css-loader": "^2.1.0",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
@@ -61,6 +60,7 @@
     "webpack-node-externals": "^2.5.2"
   },
   "dependencies": {
+    "core-js": "3",
     "get-input-selection": "^1.1.4",
     "prop-types": "^15.7.2",
     "textarea-caret": "^3.0.2"

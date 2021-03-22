@@ -1,3 +1,6 @@
+### 21st March 2021 - 1.0.17
+- Fixing missing core-js in dependency list issue
+
 ### 9th March 2021 - 1.0.16
 - Props to LazaroHurtado, now library supports several sets of triggers and options simultaneously (https://github.com/yury-dymov/react-autocomplete-input/pull/54)
 
