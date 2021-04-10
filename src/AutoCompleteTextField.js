@@ -27,6 +27,7 @@ const propTypes = {
   onKeyDown: PropTypes.func,
   onRequestOptions: PropTypes.func,
   onSelect: PropTypes.func,
+  changeOnSelect: PropTypes.func,
   options: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.arrayOf(PropTypes.string),
@@ -57,6 +58,7 @@ const defaultProps = {
   onKeyDown: () => {},
   onRequestOptions: () => {},
   onSelect: () => {},
+  changeOnSelect: (trigger, slug) => trigger + slug,
   options: [],
   regex: '^[A-Za-z0-9\\-_]+$',
   matchAny: false,
@@ -90,6 +92,7 @@ class AutocompleteTextField extends React.Component {
     this.state = {
       helperVisible: false,
       left: 0,
+      trigger: null,
       matchLength: 0,
       matchStart: 0,
       options: [],
@@ -186,14 +189,17 @@ class AutocompleteTextField extends React.Component {
             return idx !== -1 && (matchAny || idx === 0);
           });
 
+          const currTrigger = triggerStr;
           const matchLength = matchedSlug.length;
 
           if (slugData === null) {
-            slugData = { matchStart, matchLength, options };
+            slugData = {
+              trigger: currTrigger, matchStart, matchLength, options,
+            };
           }
           else {
             slugData = {
-              ...slugData, matchStart, matchLength, options,
+              ...slugData, trigger: currTrigger, matchStart, matchLength, options,
             };
           }
         }
@@ -329,23 +335,26 @@ class AutocompleteTextField extends React.Component {
   }
 
   handleSelection(idx) {
-    const { matchStart, matchLength, options } = this.state;
-    const { spacer, onSelect } = this.props;
+    const { spacer, onSelect, changeOnSelect } = this.props;
+    const {
+      matchStart, matchLength, options, trigger,
+    } = this.state;
 
     const slug = options[idx];
     const value = this.recentValue;
-    const part1 = value.substring(0, matchStart);
+    const part1 = value.substring(0, matchStart - trigger.length);
     const part2 = value.substring(matchStart + matchLength);
 
     const event = { target: this.refInput.current };
+    const selectedStr = changeOnSelect(trigger, slug);
 
-    event.target.value = `${part1}${slug}${spacer}${part2}`;
+    event.target.value = `${part1}${selectedStr}${spacer}${part2}`;
     this.handleChange(event);
     onSelect(event.target.value);
 
     this.resetHelper();
 
-    this.updateCaretPosition(part1.length + slug.length + 1);
+    this.updateCaretPosition(part1.length + selectedStr.length + 1);
 
     this.enableSpaceRemovers = true;
   }
