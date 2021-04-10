@@ -57,6 +57,10 @@ Defines how many options can be listed simultaneously. Show all matched options 
 #### Default value: `() => {}`
 Callback invoked upon selecting an option. Receives selection value as a parameter.
 
+## changeOnSelect : func
+#### Default value: `(trigger, slug) => trigger + slug`
+Callback invoked upon selecting an option, will display what the function returns. Receives trigger and selection value as a parameter.
+
 ## onRequestOptions : func
 #### Default value: `() => {}`
 Callback for requesting new options to support lazy-loading. If `requestOnlyIfNoOptions` is true, then `onRequestOptions` called only if no options are currently available. Otherwise `onRequestOptions` is called every time text is changed and `trigger` is found.
