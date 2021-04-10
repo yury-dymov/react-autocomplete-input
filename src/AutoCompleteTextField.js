@@ -346,15 +346,15 @@ class AutocompleteTextField extends React.Component {
     const part2 = value.substring(matchStart + matchLength);
 
     const event = { target: this.refInput.current };
-    const selectedStr = changeOnSelect(trigger, slug);
+    const changedStr = changeOnSelect(trigger, slug);
 
-    event.target.value = `${part1}${selectedStr}${spacer}${part2}`;
+    event.target.value = `${part1}${changedStr}${spacer}${part2}`;
     this.handleChange(event);
     onSelect(event.target.value);
 
     this.resetHelper();
 
-    this.updateCaretPosition(part1.length + selectedStr.length + 1);
+    this.updateCaretPosition(part1.length + changedStr.length + 1);
 
     this.enableSpaceRemovers = true;
   }
