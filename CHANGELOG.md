@@ -1,3 +1,6 @@
+### 23d April 2021 - 1.0.18
+- New changeOnSelect Prop (https://github.com/yury-dymov/react-autocomplete-input/pull/55). Props go to Lazaro Hurtado :)
+
 ### 21st March 2021 - 1.0.17
 - Fixing missing core-js in dependency list issue
 
