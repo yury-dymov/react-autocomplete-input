@@ -572,6 +572,48 @@ describe('selecting option from list', () => {
     expect(component.find('textarea')).to.have.html().match(/@aa/);
   });
 
+  it('enter with changeOnSelect, return slug => hide options, update textarea', () => {
+    const component = mount(<TextField options={["aa", "ab"]} changeOnSelect={(trigger, slug) => slug} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@'));
+    component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(1);
+
+    component.find('textarea').simulate('keyDown', { keyCode: KEY_ENTER });
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(0);
+    expect(component.find('textarea')).to.have.html().match(/aa/);
+  });
+
+  it('enter with changeOnSelect, return trigger => hide options, update textarea', () => {
+    const component = mount(<TextField options={["aa", "ab"]} changeOnSelect={(trigger, slug) => trigger} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@'));
+    component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(1);
+
+    component.find('textarea').simulate('keyDown', { keyCode: KEY_ENTER });
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(0);
+    expect(component.find('textarea')).to.have.html().match(/@/);
+  });
+
+  it('enter with changeOnSelect, return trigger+slug => hide options, update textarea', () => {
+    const component = mount(<TextField options={["aa", "ab"]} changeOnSelect={(trigger, slug) => trigger + slug} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@'));
+    component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(1);
+
+    component.find('textarea').simulate('keyDown', { keyCode: KEY_ENTER });
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(0);
+    expect(component.find('textarea')).to.have.html().match(/@aa/);
+  });
+
   it('tab => hide options, update textarea', () => {
     const component = mount(<TextField options={["aa", "ab"]} />);
 
