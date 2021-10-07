@@ -491,7 +491,7 @@ class AutocompleteTextField extends React.Component {
     }
 
     return (
-      <span>
+      <>
         <Component
           disabled={disabled}
           onBlur={onBlur}
@@ -502,7 +502,7 @@ class AutocompleteTextField extends React.Component {
           {...propagated}
         />
         {this.renderAutocompleteList()}
-      </span>
+      </>
     );
   }
 }
