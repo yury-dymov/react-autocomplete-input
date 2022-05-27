@@ -24,6 +24,7 @@ const propTypes = {
   maxOptions: PropTypes.number,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
+  onChangeAdapter: PropTypes.func,
   onKeyDown: PropTypes.func,
   onRequestOptions: PropTypes.func,
   onSelect: PropTypes.func,
@@ -55,6 +56,7 @@ const defaultProps = {
   maxOptions: 6,
   onBlur: () => {},
   onChange: () => {},
+  onChangeAdapter: e => e,
   onKeyDown: () => {},
   onRequestOptions: () => {},
   onSelect: () => {},
@@ -81,6 +83,7 @@ class AutocompleteTextField extends React.Component {
     this.arrayTriggerMatch = this.arrayTriggerMatch.bind(this);
     this.getMatch = this.getMatch.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeEvent = this.handleChangeEvent.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleResize = this.handleResize.bind(this);
     this.handleSelection = this.handleSelection.bind(this);
@@ -233,6 +236,13 @@ class AutocompleteTextField extends React.Component {
 
   handleChange(e) {
     const {
+      onChangeAdapter,
+    } = this.props;
+    this.handleChangeEvent(onChangeAdapter(e, this.refInput));
+  }
+
+  handleChangeEvent(e) {
+    const {
       onChange,
       options,
       spaceRemovers,
@@ -342,14 +352,14 @@ class AutocompleteTextField extends React.Component {
 
     const slug = options[idx];
     const value = this.recentValue;
-    const part1 = trigger.length === 0 ? "" : value.substring(0, matchStart - trigger.length);
+    const part1 = trigger.length === 0 ? '' : value.substring(0, matchStart - trigger.length);
     const part2 = value.substring(matchStart + matchLength);
 
     const event = { target: this.refInput.current };
     const changedStr = changeOnSelect(trigger, slug);
 
     event.target.value = `${part1}${changedStr}${spacer}${part2}`;
-    this.handleChange(event);
+    this.handleChangeEvent(event);
     onSelect(event.target.value);
 
     this.resetHelper();

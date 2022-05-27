@@ -87,6 +87,24 @@ describe('option list is shown for different trigger strings', () => {
     expect(component.find('.react-autocomplete-input')).to.have.length(1);
   });
 
+  it.skip('trigger [@] by onChangeAdapter', () => {
+    // refInput.current is null, looks enzime issue
+    const CustomTextarea = ({value, onChange}) => {
+      return (<textarea value={value} onChange={e => onChange(e.target.value)} />)
+    }
+
+    const component = mount(<TextField trigger={["@"]} options={["aa", "ab"]}
+    Component = {CustomTextarea}
+    onChangeAdapter={(value, refInput) => {
+      const event = { target: refInput.current, value };
+      return event;
+    }} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@'));
+
+    expect(component.find('.react-autocomplete-input')).to.have.length(1);
+  });
+
   it('trigger [@@]', () => {
     const component = mount(<TextField trigger={["@@"]} options={["aa", "ab"]} />);
 
