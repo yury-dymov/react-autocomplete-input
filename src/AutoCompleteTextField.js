@@ -2,6 +2,7 @@ import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import getCaretCoordinates from 'textarea-caret';
 import getInputSelection, { setCaretPosition } from 'get-input-selection';
+import isEqual from 'lodash.isequal';
 import './AutoCompleteTextField.css';
 
 const KEY_UP = 38;
@@ -114,7 +115,7 @@ class AutocompleteTextField extends React.Component {
     const { options } = this.props;
     const { caret } = this.state;
 
-    if (options.length !== prevProps.options.length) {
+    if (!isEqual(options, prevProps.options)) {
       this.updateHelper(this.recentValue, caret, options);
     }
   }
@@ -342,7 +343,7 @@ class AutocompleteTextField extends React.Component {
 
     const slug = options[idx];
     const value = this.recentValue;
-    const part1 = trigger.length === 0 ? "" : value.substring(0, matchStart - trigger.length);
+    const part1 = trigger.length === 0 ? '' : value.substring(0, matchStart - trigger.length);
     const part2 = value.substring(matchStart + matchLength);
 
     const event = { target: this.refInput.current };
