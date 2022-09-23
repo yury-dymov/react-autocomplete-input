@@ -382,7 +382,7 @@ class AutocompleteTextField extends React.Component {
       if (
         slug.matchLength >= minChars
         && (
-          slug.options.length > 1
+          slug.options.length >= 1
           || (
             slug.options.length === 1
             && slug.options[0].length !== slug.matchLength
