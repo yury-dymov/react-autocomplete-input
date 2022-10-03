@@ -342,7 +342,7 @@ class AutocompleteTextField extends React.Component {
 
     const slug = options[idx];
     const value = this.recentValue;
-    const part1 = trigger.length === 0 ? "" : value.substring(0, matchStart - trigger.length);
+    const part1 = trigger.length === 0 ? '' : value.substring(0, matchStart - trigger.length);
     const part2 = value.substring(matchStart + matchLength);
 
     const event = { target: this.refInput.current };

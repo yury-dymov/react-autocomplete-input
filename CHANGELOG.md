@@ -1,3 +1,6 @@
+### 2nd October 2022 - 1.0.19
+- Fixing edge case for one option, one character (https://github.com/yury-dymov/react-autocomplete-input/pull/78). Props to Nikhil Varma
+
 ### 23d April 2021 - 1.0.18
 - New changeOnSelect Prop (https://github.com/yury-dymov/react-autocomplete-input/pull/55). Props go to Lazaro Hurtado :)
 

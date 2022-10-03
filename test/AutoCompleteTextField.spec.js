@@ -1,7 +1,7 @@
 import React from 'react';
 import chai, { expect } from 'chai';
 import chaiEnzyme from 'chai-enzyme';
-import { configure, mount, render } from 'enzyme';
+import { configure, mount } from 'enzyme';
 import jsdom from 'jsdom';
 import { spy } from 'sinon';
 import Adapter from 'enzyme-adapter-react-16';
@@ -42,13 +42,12 @@ function createOnChangeEvent(value) {
 
 describe('className and style are propagated', () => {
   it('className: rnd-1234 -> .rnd-1234', () => {
-    const component = render(<TextField className="rnd-1234" />);
-
-    expect(component.find('.rnd-1234')).to.have.length(1);
+    const component = mount(<TextField className="rnd-1234" />);
+    expect(component.find('.rnd-1234')).to.have.lengthOf.above(1);
   });
 
   it('style: { zIndex: "-9876"} => style={"z-index:-9876"}', () => {
-    const component = render(<TextField style={{ zIndex: '-9876' }} />);
+    const component = mount(<TextField style={{ zIndex: '-9876' }} />);
 
     expect(component.find('textarea')).to.have.attr('style').match(/\-9876/);
   });
@@ -305,7 +304,7 @@ describe('max options test', () => {
 
 describe('disabled test', () => {
   it('disabled works', () => {
-    const component = render(<TextField disabled trigger="@" options={["aa", "ab", "abc", "abcd", "abcde"]} />);
+    const component = mount(<TextField disabled trigger="@" options={["aa", "ab", "abc", "abcd", "abcde"]} />);
 
     expect(component.find('textarea')).to.have.attr('disabled');
   });
@@ -313,13 +312,13 @@ describe('disabled test', () => {
 
 describe('Component', () => {
   it('default is textarea', () => {
-    const component = render(<TextField />);
+    const component = mount(<TextField />);
 
     expect(component.find('textarea')).to.have.length(1);
   });
 
   it('Component=input => input', () => {
-    const component = render(<TextField Component="input" />);
+    const component = mount(<TextField Component="input" />);
 
     expect(component.find('input')).to.have.length(1);
   });
@@ -345,13 +344,13 @@ describe('regex', () => {
 
 describe('defaultValue and value propagated', () => {
   it('defaultValue', () => {
-    const component = render(<TextField defaultValue="hello" />);
+    const component = mount(<TextField defaultValue="hello" />);
 
     expect(component.find('textarea')).to.have.html().match(/hello/);
   });
 
   it('value', () => {
-    const component = render(<TextField value="hello" />);
+    const component = mount(<TextField value="hello" />);
 
     expect(component.find('textarea')).to.have.html().match(/hello/);
   });
