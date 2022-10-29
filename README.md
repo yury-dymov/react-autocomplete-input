@@ -24,7 +24,7 @@ import 'react-autocomplete-input/dist/bundle.css';
 import TextInput from 'react-autocomplete-input';
 import 'react-autocomplete-input/dist/bundle.css';
 
-<TextField trigger={["@", "@@"]} options={{"@": ["aa", "ab", "abc", "abcd"], "@@": ["az", "ar"]}} />
+<TextInput trigger={["@", "@@"]} options={{"@": ["aa", "ab", "abc", "abcd"], "@@": ["az", "ar"]}} />
 ```
 Here for trigger `@` first set of options will resolve and for `@@` — second set.
 
