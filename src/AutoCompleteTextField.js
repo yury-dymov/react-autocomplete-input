@@ -297,7 +297,8 @@ class AutocompleteTextField extends React.Component {
 
   handleKeyDown(event) {
     const { helperVisible, options, selection } = this.state;
-    const { onKeyDown, passThroughEnter } = this.props;
+    const { onKeyDown, passThroughEnter, maxOptions } = this.props;
+    const optionsCount = maxOptions === 0 ? options.length : maxOptions
 
     if (helperVisible) {
       switch (event.keyCode) {
@@ -307,11 +308,11 @@ class AutocompleteTextField extends React.Component {
           break;
         case KEY_UP:
           event.preventDefault();
-          this.setState({ selection: ((options.length + selection) - 1) % options.length });
+          this.setState({ selection: ((optionsCount + selection) - 1) % optionsCount });
           break;
         case KEY_DOWN:
           event.preventDefault();
-          this.setState({ selection: (selection + 1) % options.length });
+          this.setState({ selection: (selection + 1) % optionsCount });
           break;
         case KEY_ENTER:
         case KEY_RETURN:
