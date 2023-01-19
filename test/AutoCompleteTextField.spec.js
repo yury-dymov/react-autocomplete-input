@@ -748,4 +748,34 @@ describe('updating props', () => {
 
     expect(component.find('.react-autocomplete-input > li')).to.have.length(3);
   });
+
+  it('option list is updated if props value is updated #2', () => {
+    const component = mount(<TextField options={["aa", "ab"]} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@'));
+
+    const lis = component.find('.react-autocomplete-input > li')
+    expect(lis).to.have.length(2);
+    expect(lis.at(1)).to.contain('ab')
+
+    component.setProps({ options: ["aa", "ac"] });
+    component.update(); // needed because componentDidUpdate re-renders with updated values
+
+    const lis2 = component.find('.react-autocomplete-input > li')
+    expect(lis2).to.have.length(2);
+    expect(lis2.at(1)).to.contain('ac')
+  });
+
+  it('option object is updated if props value is updated', () => {
+    const component = mount(<TextField options={{"@": ["aa", "ab"]}} />);
+
+    component.find('textarea').simulate('change', createOnChangeEvent('@a'));
+
+    expect(component.find('.react-autocomplete-input > li')).to.have.length(2);
+
+    component.setProps({ options: {"@": ["aa", "ab", "ac"]} });
+    component.update(); // needed because componentDidUpdate re-renders with updated values
+
+    expect(component.find('.react-autocomplete-input > li')).to.have.length(3);
+  });
 });
