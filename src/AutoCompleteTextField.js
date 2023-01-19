@@ -308,11 +308,15 @@ class AutocompleteTextField extends React.Component {
           break;
         case KEY_UP:
           event.preventDefault();
-          if (optionsCount > 0) this.setState({ selection: Math.max(0, optionsCount + selection - 1) % optionsCount });
+          if (optionsCount > 0) {
+            this.setState({ selection: Math.max(0, optionsCount + selection - 1) % optionsCount });
+          }
           break;
         case KEY_DOWN:
           event.preventDefault();
-          this.setState({ selection: (selection + 1) % optionsCount });
+          if (optionsCount > 0) {
+            this.setState({ selection: (selection + 1) % optionsCount });
+          }
           break;
         case KEY_ENTER:
         case KEY_RETURN:

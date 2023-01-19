@@ -1,3 +1,6 @@
+### 18th January 2023 - 1.0.20
+- Fixing maxOptions handling for keyUp/keyDown events (https://github.com/yury-dymov/react-autocomplete-input/pull/92). Props to Alice Choi 
+
 ### 2nd October 2022 - 1.0.19
 - Fixing edge case for one option, one character (https://github.com/yury-dymov/react-autocomplete-input/pull/78). Props to Nikhil Varma
 
