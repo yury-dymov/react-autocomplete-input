@@ -1,6 +1,6 @@
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {  
   entry: [
@@ -8,13 +8,13 @@ module.exports = {
   ],
   module: {
     rules: [
-      { test: /\.js?$/, loader: 'babel-loader', exclude: /node_modules/, query: { presets:  ["@babel/preset-env", "@babel/preset-react"] } },
-      { test: /\.css$/, use: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }), exclude: /node_modules/ }
+      { test: /\.js?$/, loader: 'babel-loader', exclude: /node_modules/, options: { presets: ['@babel/env','@babel/preset-react'] } },
+      { test: /\.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader'], exclude: /node_modules/ }
     ]
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -22,7 +22,7 @@ module.exports = {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-    new ExtractTextPlugin('bundle.css')
+    new MiniCssExtractPlugin({ filename: 'bundle.css' })
   ],
   resolve: {
     modules: [
