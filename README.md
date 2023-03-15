@@ -157,6 +157,11 @@ class MyComponent extends React.Component {
 
 ```
 
+## expandUp: boolean
+#### Default value: false
+If true, option list "expands up", essentially moving the ul based on the size of the options displayed.
+Useful if input is near/at the bottom of the page.
+
 # Styles Customization
 By default styles are defined in `"react-autocomplete-input/dist/bundle.css"`, however, you may define your custom styles instead for following entities:
 
