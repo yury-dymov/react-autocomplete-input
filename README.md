@@ -139,6 +139,29 @@ Widget supports both controlling options: by value and by state. If you explicit
 If true, then an enter / return keypress is passed on (after being used to autocomplete).
 Useful if you want to have the form submit as soon as a single value is chosen.
 
+## renderOptionsList : func
+#### Default value: `(markUp, plaintext) => markUp`
+Accepts function that changes each option in the autocomplete list.  `markUp` will be the original text (including the highlighting), while `plaintext` will be the pure-text value of the option. Example:
+```JavaScript
+import React from 'react';
+import TextInput from 'react-autocomplete-input';
+
+class MyComponent extends React.Component {
+
+    render() {
+        return <TextInput renderOptionsList={(markUp, plaintext) => {
+            return <><i className="fa fa-some-icon"></i> {markUp}</>
+        }} options={this.state.options} />;
+    }
+}
+
+```
+
+## expandUp: boolean
+#### Default value: false
+If true, option list "expands up", essentially moving the ul based on the size of the options displayed.
+Useful if input is near/at the bottom of the page.
+
 # Styles Customization
 By default styles are defined in `"react-autocomplete-input/dist/bundle.css"`, however, you may define your custom styles instead for following entities:
 

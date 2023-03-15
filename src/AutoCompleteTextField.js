@@ -47,6 +47,8 @@ const propTypes = {
   offsetX: PropTypes.number,
   offsetY: PropTypes.number,
   passThroughEnter: PropTypes.bool,
+  renderOptionsList: PropTypes.func,
+  expandUp: PropTypes.bool
 };
 
 const defaultProps = {
@@ -72,6 +74,8 @@ const defaultProps = {
   offsetY: 0,
   value: null,
   passThroughEnter: false,
+  renderOptionsList: (markUp, plaintext)=>  markUp,
+  expandUp: false
 };
 
 class AutocompleteTextField extends React.Component {
@@ -429,6 +433,8 @@ class AutocompleteTextField extends React.Component {
       value,
     } = this.state;
 
+    const {renderOptionsList, expandUp} = this.props;
+
     if (!helperVisible) {
       return null;
     }
@@ -447,8 +453,11 @@ class AutocompleteTextField extends React.Component {
 
     const optionNumber = maxOptions === 0 ? options.length : maxOptions;
 
+    let height = offsetY;
+
     const helperOptions = options.slice(0, optionNumber).map((val, idx) => {
       const highlightStart = val.toLowerCase().indexOf(value.substr(matchStart, matchLength).toLowerCase());
+      height -= 52;
 
       return (
         <li
@@ -457,15 +466,18 @@ class AutocompleteTextField extends React.Component {
           onClick={() => { this.handleSelection(idx); }}
           onMouseEnter={() => { this.setState({ selection: idx }); }}
         >
-          {val.slice(0, highlightStart)}
-          <strong>{val.substr(highlightStart, matchLength)}</strong>
-          {val.slice(highlightStart + matchLength)}
+
+          {renderOptionsList(<>{val.slice(0, highlightStart)}<strong>{val.substr(highlightStart, matchLength)}</strong>{val.slice(highlightStart + matchLength)}</>, val)}
         </li>
       );
     });
 
+    if (!expandUp) {
+      height = top + offsetY;
+    }
+
     return (
-      <ul className="react-autocomplete-input" style={{ left: left + offsetX, top: top + offsetY }}>
+      <ul className="react-autocomplete-input" style={{ left: left + offsetX, top: expandUp }}>
         {helperOptions}
       </ul>
     );
