@@ -47,6 +47,7 @@ const propTypes = {
   offsetX: PropTypes.number,
   offsetY: PropTypes.number,
   passThroughEnter: PropTypes.bool,
+  renderOptionsList: PropTypes.func
 };
 
 const defaultProps = {
@@ -72,6 +73,7 @@ const defaultProps = {
   offsetY: 0,
   value: null,
   passThroughEnter: false,
+  renderOptionsList: (markUp, plaintext)=>  markUp
 };
 
 class AutocompleteTextField extends React.Component {
@@ -429,6 +431,8 @@ class AutocompleteTextField extends React.Component {
       value,
     } = this.state;
 
+    const {renderOptionsList} = this.props;
+
     if (!helperVisible) {
       return null;
     }
@@ -457,9 +461,8 @@ class AutocompleteTextField extends React.Component {
           onClick={() => { this.handleSelection(idx); }}
           onMouseEnter={() => { this.setState({ selection: idx }); }}
         >
-          {val.slice(0, highlightStart)}
-          <strong>{val.substr(highlightStart, matchLength)}</strong>
-          {val.slice(highlightStart + matchLength)}
+
+          {renderOptionsList(<>{val.slice(0, highlightStart)}<strong>{val.substr(highlightStart, matchLength)}</strong>{val.slice(highlightStart + matchLength)}</>, val)}
         </li>
       );
     });
