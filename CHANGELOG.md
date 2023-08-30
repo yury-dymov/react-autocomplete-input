@@ -1,3 +1,6 @@
+### 29th August 2023 - 1.0.21
+- Added passThroughTab prop (https://github.com/yury-dymov/react-autocomplete-input/pull/102/). Props to jaredzwick
+
 ### 18th January 2023 - 1.0.20
 - Fixing maxOptions handling for keyUp/keyDown events (https://github.com/yury-dymov/react-autocomplete-input/pull/92). Props to Alice Choi 
 
