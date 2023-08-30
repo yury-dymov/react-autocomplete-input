@@ -139,6 +139,11 @@ Widget supports both controlling options: by value and by state. If you explicit
 If true, then an enter / return keypress is passed on (after being used to autocomplete).
 Useful if you want to have the form submit as soon as a single value is chosen.
 
+## passThroughTab: boolean
+#### Default value: true
+If true, then an Tab keypress is passed on (after being used to autocomplete) to the next form input.
+Else, it allows users to autocomplete their input with tab and keep typing.
+
 # Styles Customization
 By default styles are defined in `"react-autocomplete-input/dist/bundle.css"`, however, you may define your custom styles instead for following entities:
 
