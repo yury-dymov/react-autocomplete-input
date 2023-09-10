@@ -3,6 +3,7 @@
   "version": "1.0.21",
   "description": "Autocomplete input field for React",
   "main": "dist/bundle.js",
+  "typings": "lib/index.d.ts",
   "scripts": {
     "build": "NODE_ENV=production webpack",
     "clean": "rimraf dist coverage lib",
