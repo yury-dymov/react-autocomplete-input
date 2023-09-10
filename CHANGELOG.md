@@ -1,3 +1,6 @@
+### 10th September 2023 - 1.0.22
+- Added typescript support (https://github.com/yury-dymov/react-autocomplete-input/pull/103). Props to jaredzwick
+
 ### 29th August 2023 - 1.0.21
 - Added passThroughTab prop (https://github.com/yury-dymov/react-autocomplete-input/pull/102/). Props to jaredzwick
 
