@@ -365,7 +365,9 @@ class AutocompleteTextField extends React.Component {
 
     this.resetHelper();
 
-    this.updateCaretPosition(part1.length + changedStr.length + 1);
+    const advanceCaretDistance = part1.length + changedStr.length + (spacer ? spacer.length : 1);
+
+    this.updateCaretPosition(advanceCaretDistance);
 
     this.enableSpaceRemovers = true;
   }
