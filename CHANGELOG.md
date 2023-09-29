@@ -1,3 +1,6 @@
+### 29th September 2023 - 1.0.24
+- Better spacer handling for caret position (https://github.com/yury-dymov/react-autocomplete-input/pull/104/). Props to jaredzwick
+
 ### 29th September 2023 - 1.0.23
 - Fixed typescript issue (https://github.com/yury-dymov/react-autocomplete-input/pull/107). Props to szaleq 
 
