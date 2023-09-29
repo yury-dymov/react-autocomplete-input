@@ -1,3 +1,6 @@
+### 29th September 2023 - 1.0.23
+- Fixed typescript issue (https://github.com/yury-dymov/react-autocomplete-input/pull/107). Props to szaleq 
+
 ### 10th September 2023 - 1.0.22
 - Added typescript support (https://github.com/yury-dymov/react-autocomplete-input/pull/103). Props to jaredzwick
 
