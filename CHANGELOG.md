@@ -1,3 +1,6 @@
+### 5th October 2023 - 1.0.25
+- Fixed wrong suggestion list position when text field is scrolled (https://github.com/yury-dymov/react-autocomplete-input/pull/108). Props to fabioimpe
+
 ### 29th September 2023 - 1.0.24
 - Better spacer handling for caret position (https://github.com/yury-dymov/react-autocomplete-input/pull/104/). Props to jaredzwick
 
