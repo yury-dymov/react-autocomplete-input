@@ -385,7 +385,7 @@ class AutocompleteTextField extends React.Component {
       const caretPos = getCaretCoordinates(input, caret);
       const rect = input.getBoundingClientRect();
 
-      const top = caretPos.top + input.offsetTop;
+      const top = caretPos.top + input.offsetTop - input.scrollTop;
       const left = Math.min(
         caretPos.left + input.offsetLeft - OPTION_LIST_Y_OFFSET,
         input.offsetLeft + rect.width - OPTION_LIST_MIN_WIDTH,
