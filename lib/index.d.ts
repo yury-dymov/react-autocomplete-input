@@ -1,12 +1,12 @@
 declare module 'react-autocomplete-input' {
-    import React, { ComponentType, KeyboardEvent } from 'react';
+    import React, { ComponentType, KeyboardEvent, FocusEventHandler } from 'react';
   
     type AutocompleteTextFieldPropsGeneral = {
       Component?: string | ComponentType<any>;
       defaultValue?: string;
       disabled?: boolean;
       maxOptions?: number;
-      onBlur?: () => void;
+      onBlur?: FocusEventHandler<HTMLTextAreaElement>;
       onChange?: (value: string) => void;
       onKeyDown?: (event: KeyboardEvent) => void;
       onRequestOptions?: (value: string) => void;
