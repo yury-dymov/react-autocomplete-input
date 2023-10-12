@@ -1,3 +1,6 @@
+### 12th Octover 2023 - 1.0.26
+- onBlur prop type definition fix (https://github.com/yury-dymov/react-autocomplete-input/pull/111). Props to fabioimpe
+
 ### 5th October 2023 - 1.0.25
 - Fixed wrong suggestion list position when text field is scrolled (https://github.com/yury-dymov/react-autocomplete-input/pull/108). Props to fabioimpe
 
