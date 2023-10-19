@@ -111,6 +111,7 @@ class AutocompleteTextField extends React.Component {
 
   componentDidMount() {
     window.addEventListener('resize', this.handleResize);
+    window.addEventListener('scroll', this.handleResize);
   }
 
   componentDidUpdate(prevProps) {
@@ -124,6 +125,7 @@ class AutocompleteTextField extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener('scroll', this.handleResize);
   }
 
   getMatch(str, caret, providedOptions) {
@@ -385,7 +387,7 @@ class AutocompleteTextField extends React.Component {
       const caretPos = getCaretCoordinates(input, caret);
       const rect = input.getBoundingClientRect();
 
-      const top = caretPos.top + input.offsetTop - input.scrollTop;
+      const top = caretPos.top + rect.top - input.scrollTop;
       const left = Math.min(
         caretPos.left + input.offsetLeft - OPTION_LIST_Y_OFFSET,
         input.offsetLeft + rect.width - OPTION_LIST_MIN_WIDTH,

@@ -8,7 +8,7 @@
    font-size: 14px;
    list-style: none;
    padding: 1px;
-   position: absolute;
+   position: fixed;
    text-align: left;
    z-index: 20000;
 }
