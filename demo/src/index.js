@@ -17,6 +17,8 @@ class App extends Component {
     this.handleSpaceRemoversChange = this.handleSpaceRemoversChange.bind(this);
     this.handleSpacerChange = this.handleSpacerChange.bind(this);
     this.handleTriggerChange = this.handleTriggerChange.bind(this);
+    this.handleTriggerArrayChange = this.handleTriggerArrayChange.bind(this)
+    this.handleTriggerSwitch = this.handleTriggerSwitch.bind(this)
 
     this.state = {
       disabled: false,
@@ -26,7 +28,9 @@ class App extends Component {
       requestOnlyIfNoOptions: true,
       spaceRemovers: "[',', '.', '?', '!']",
       spacer: " ",
-      trigger: '@'
+      trigger: '@',
+      triggerArray: ['@', '!!'],
+      isTriggerArray: false
     };
   }
 
@@ -69,6 +73,14 @@ class App extends Component {
     this.setState({ trigger: e.target.value })
   }
 
+  handleTriggerArrayChange(e) {
+    this.setState({ triggerArray: e.target.value.split(',') })
+  }
+
+  handleTriggerSwitch() {
+    this.setState({ isTriggerArray: !this.state.isTriggerArray })
+  }
+
   render() {
     const options = this.state.options.sort((a, b) => a.localeCompare(b)).map(option => <li key={option}>{option}</li>);
 
@@ -88,17 +100,28 @@ class App extends Component {
             requestOnlyIfNoOptions={this.state.requestOnlyIfNoOptions}
             spaceRemovers={eval(this.state.spaceRemovers)}
             spacer={this.state.spacer}
-            trigger={this.state.trigger}
+            trigger={this.state.isTriggerArray ? this.state.triggerArray : this.state.trigger}
           />
         </div>
         <hr style={{ margin: '20px 0' }} />
         <h2>Options</h2>
-        <div className="option-block">
-          <h3>trigger : string</h3>
-          <p>Show autocomplete option list if trigger string is met.</p>
-          <p>Default value: '@'. </p>
-          <div className="field">
-            <input onChange={this.handleTriggerChange} value={this.state.trigger} />
+        <div>
+          <button onClick={this.handleTriggerSwitch}>{`is trigger array : ${this.state.isTriggerArray}`}</button>
+          <div className="option-block">
+            <h3>trigger : string</h3>
+            <p>Show autocomplete option list if trigger string is met.</p>
+            <p>Default value: '@'. </p>
+            <div className="field">
+              <input onChange={this.handleTriggerChange} value={this.state.trigger} />
+            </div>
+          </div>
+          <div className="option-block">
+            <h3>trigger : Array of strings</h3>
+            <p>Show autocomplete option list if any of trigger strings is met.</p>
+            <p>Default value: ['@', '!!']. </p>
+            <div className="field">
+              <input onChange={this.handleTriggerArrayChange} value={this.state.triggerArray.toString()} />
+            </div>
           </div>
         </div>
         <div className="option-block">
