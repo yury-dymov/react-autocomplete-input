@@ -237,6 +237,14 @@ class AutocompleteTextField extends React.Component {
     return false;
   }
 
+  handleBlur(e) {
+    const { onBlur } = this.props;
+    this.resetHelper();
+    if (onBlur) {
+      onBlur(e);
+    }
+  }
+
   handleChange(e) {
     const {
       onChange,
@@ -479,14 +487,6 @@ class AutocompleteTextField extends React.Component {
         {helperOptions}
       </ul>
     );
-  }
-
-  handleBlur(e) {
-    const { onBlur } = this.props;
-    this.resetHelper();
-    if(onBlur) {
-      onBlur(e);
-    }
   }
 
   render() {

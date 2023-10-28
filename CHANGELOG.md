@@ -1,3 +1,6 @@
+### 27th October 2023 - 1.0.28
+- close suggestion list on input blur fix (https://github.com/yury-dymov/react-autocomplete-input/pull/113). Props to fabioimpe
+
 ### 19th October 2023 - 1.0.27
 - fix: bad positioning when inside a scrolled container (https://github.com/yury-dymov/react-autocomplete-input/pull/112). Props to fabioimpe 
 
