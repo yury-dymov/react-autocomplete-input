@@ -86,7 +86,7 @@ class App extends Component {
             options={this.state.options}
             regex={this.state.regex}
             requestOnlyIfNoOptions={this.state.requestOnlyIfNoOptions}
-            spaceRemovers={eval(this.state.spaceRemovers)}
+            spaceRemovers={this.state.spaceRemovers}
             spacer={this.state.spacer}
             trigger={this.state.trigger}
           />
