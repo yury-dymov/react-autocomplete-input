@@ -85,6 +85,7 @@ class AutocompleteTextField extends React.Component {
     this.getMatch = this.getMatch.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
     this.handleResize = this.handleResize.bind(this);
     this.handleSelection = this.handleSelection.bind(this);
     this.updateCaretPosition = this.updateCaretPosition.bind(this);
@@ -480,12 +481,19 @@ class AutocompleteTextField extends React.Component {
     );
   }
 
+  handleBlur(e) {
+    const { onBlur } = this.props;
+    this.resetHelper();
+    if(onBlur) {
+      onBlur(e);
+    }
+  }
+
   render() {
     const {
       Component,
       defaultValue,
       disabled,
-      onBlur,
       value,
       ...rest
     } = this.props;
@@ -509,7 +517,7 @@ class AutocompleteTextField extends React.Component {
       <>
         <Component
           disabled={disabled}
-          onBlur={onBlur}
+          onBlur={this.handleBlur}
           onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}
           ref={this.refInput}
