@@ -473,6 +473,7 @@ class AutocompleteTextField extends React.Component {
           className={idx === selection ? 'active' : null}
           key={val}
           onClick={() => { this.handleSelection(idx); }}
+          onMouseDown={(e) => { e.preventDefault(); }}
           onMouseEnter={() => { this.setState({ selection: idx }); }}
         >
           {val.slice(0, highlightStart)}
