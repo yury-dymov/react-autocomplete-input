@@ -1,3 +1,6 @@
+### 10th November 2023 - 1.0.29
+- fix: onBlur handler called before handling onClick on item (https://github.com/yury-dymov/react-autocomplete-input/pull/122). Props to fabioimpe
+
 ### 27th October 2023 - 1.0.28
 - close suggestion list on input blur fix (https://github.com/yury-dymov/react-autocomplete-input/pull/113). Props to fabioimpe
 
