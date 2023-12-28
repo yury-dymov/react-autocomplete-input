@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM, { findDOMNode } from 'react-dom';
 import TextField from '../../src/AutoCompleteTextField';
 
-import '../dist/bundle.css';
+import '../../dist/bundle.css';
 
 class App extends Component {
   constructor() {
