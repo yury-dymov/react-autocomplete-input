@@ -19,6 +19,7 @@ class App extends Component {
     this.handleTriggerChange = this.handleTriggerChange.bind(this);
     this.handleTriggerArrayChange = this.handleTriggerArrayChange.bind(this)
     this.handleTriggerSwitch = this.handleTriggerSwitch.bind(this)
+    this.handleIgnoreCaseChange = this.handleIgnoreCaseChange.bind(this);
 
     this.state = {
       disabled: false,
@@ -30,7 +31,8 @@ class App extends Component {
       spacer: " ",
       trigger: '@',
       triggerArray: ['@', '!!'],
-      isTriggerArray: false
+      isTriggerArray: false,
+      ignoreCase: false
     };
   }
 
@@ -81,6 +83,10 @@ class App extends Component {
     this.setState({ isTriggerArray: !this.state.isTriggerArray })
   }
 
+  handleIgnoreCaseChange() {
+    this.setState({ ignoreCase: !this.state.ignoreCase });
+  }
+
   render() {
     const options = this.state.options.sort((a, b) => a.localeCompare(b)).map(option => <li key={option}>{option}</li>);
 
@@ -101,6 +107,7 @@ class App extends Component {
             spaceRemovers={this.state.spaceRemovers}
             spacer={this.state.spacer}
             trigger={this.state.isTriggerArray ? this.state.triggerArray : this.state.trigger}
+            ignoreCase={this.state.ignoreCase}
           />
         </div>
         <hr style={{ margin: '20px 0' }} />
@@ -175,6 +182,14 @@ class App extends Component {
           <p>Default value: '^[a-zA-Z0-9\-_]+$'</p>
           <div className="field">
             <input onBlur={this.handleRegexChange} defaultValue={this.state.regex} />
+          </div>
+        </div>
+        <div className="option-block">
+          <h3>ignoreCase : boolean</h3>
+          <p>Use case-insensitive comparison of input text with trigger</p>
+          <p>Default value: false</p>
+          <div className="field">
+            <input type="checkbox" onChange={this.handleIgnoreCaseChange} checked={this.state.ignoreCase} />
           </div>
         </div>
         <div className="option-block">
