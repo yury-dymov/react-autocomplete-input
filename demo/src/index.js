@@ -19,7 +19,11 @@ class App extends Component {
     this.handleTriggerChange = this.handleTriggerChange.bind(this);
     this.handleTriggerArrayChange = this.handleTriggerArrayChange.bind(this)
     this.handleTriggerSwitch = this.handleTriggerSwitch.bind(this)
+<<<<<<< HEAD
     this.handleIgnoreCaseChange = this.handleIgnoreCaseChange.bind(this);
+=======
+    this.handleTriggerInsideWordChange = this.handleTriggerInsideWordChange.bind(this);
+>>>>>>> edb2f59 (Option to prevent triggering inside the word)
 
     this.state = {
       disabled: false,
@@ -32,7 +36,11 @@ class App extends Component {
       trigger: '@',
       triggerArray: ['@', '!!'],
       isTriggerArray: false,
+<<<<<<< HEAD
       ignoreCase: false
+=======
+      triggerInsideWord: true,
+>>>>>>> edb2f59 (Option to prevent triggering inside the word)
     };
   }
 
@@ -83,8 +91,13 @@ class App extends Component {
     this.setState({ isTriggerArray: !this.state.isTriggerArray })
   }
 
+<<<<<<< HEAD
   handleIgnoreCaseChange() {
     this.setState({ ignoreCase: !this.state.ignoreCase });
+=======
+  handleTriggerInsideWordChange() {
+    this.setState({ triggerInsideWord: !this.state.triggerInsideWord });
+>>>>>>> edb2f59 (Option to prevent triggering inside the word)
   }
 
   render() {
@@ -107,7 +120,11 @@ class App extends Component {
             spaceRemovers={this.state.spaceRemovers}
             spacer={this.state.spacer}
             trigger={this.state.isTriggerArray ? this.state.triggerArray : this.state.trigger}
+<<<<<<< HEAD
             ignoreCase={this.state.ignoreCase}
+=======
+            triggerInsideWord={this.state.triggerInsideWord}
+>>>>>>> edb2f59 (Option to prevent triggering inside the word)
           />
         </div>
         <hr style={{ margin: '20px 0' }} />
@@ -185,11 +202,19 @@ class App extends Component {
           </div>
         </div>
         <div className="option-block">
+<<<<<<< HEAD
           <h3>ignoreCase : boolean</h3>
           <p>Use case-insensitive comparison of input text with trigger</p>
           <p>Default value: false</p>
           <div className="field">
             <input type="checkbox" onChange={this.handleIgnoreCaseChange} checked={this.state.ignoreCase} />
+=======
+          <h3>triggerInsideWord : boolean</h3>
+          <p>Allow triggering inside word</p>
+          <p>Default value: true</p>
+          <div className="field">
+            <input type="checkbox" onChange={this.handleTriggerInsideWordChange} checked={this.state.triggerInsideWord} />
+>>>>>>> edb2f59 (Option to prevent triggering inside the word)
           </div>
         </div>
         <div className="option-block">
