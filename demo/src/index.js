@@ -20,6 +20,7 @@ class App extends Component {
     this.handleTriggerArrayChange = this.handleTriggerArrayChange.bind(this)
     this.handleTriggerSwitch = this.handleTriggerSwitch.bind(this)
     this.handleIgnoreCaseChange = this.handleIgnoreCaseChange.bind(this);
+    this.handleTriggerInsideWordChange = this.handleTriggerInsideWordChange.bind(this);
 
     this.state = {
       disabled: false,
@@ -32,7 +33,8 @@ class App extends Component {
       trigger: '@',
       triggerArray: ['@', '!!'],
       isTriggerArray: false,
-      ignoreCase: false
+      ignoreCase: false,
+      triggerInsideWord: true,
     };
   }
 
@@ -87,6 +89,10 @@ class App extends Component {
     this.setState({ ignoreCase: !this.state.ignoreCase });
   }
 
+  handleTriggerInsideWordChange() {
+    this.setState({ triggerInsideWord: !this.state.triggerInsideWord });
+  }
+
   render() {
     const options = this.state.options.sort((a, b) => a.localeCompare(b)).map(option => <li key={option}>{option}</li>);
 
@@ -108,6 +114,7 @@ class App extends Component {
             spacer={this.state.spacer}
             trigger={this.state.isTriggerArray ? this.state.triggerArray : this.state.trigger}
             ignoreCase={this.state.ignoreCase}
+            triggerInsideWord={this.state.triggerInsideWord}
           />
         </div>
         <hr style={{ margin: '20px 0' }} />
@@ -190,6 +197,14 @@ class App extends Component {
           <p>Default value: false</p>
           <div className="field">
             <input type="checkbox" onChange={this.handleIgnoreCaseChange} checked={this.state.ignoreCase} />
+          </div>
+        </div>
+        <div className="option-block">
+          <h3>triggerInsideWord : boolean</h3>
+          <p>Allow triggering inside word</p>
+          <p>Default value: true</p>
+          <div className="field">
+            <input type="checkbox" onChange={this.handleTriggerInsideWordChange} checked={this.state.triggerInsideWord} />
           </div>
         </div>
         <div className="option-block">

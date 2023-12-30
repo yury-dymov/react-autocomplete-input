@@ -49,6 +49,7 @@ const propTypes = {
   passThroughEnter: PropTypes.bool,
   passThroughTab: PropTypes.bool,
   ignoreCase: PropTypes.bool,
+  triggerInsideWord: PropTypes.bool,
 };
 
 const defaultProps = {
@@ -76,6 +77,7 @@ const defaultProps = {
   passThroughEnter: false,
   passThroughTab: true,
   ignoreCase: false,
+  triggerInsideWord: true,
 };
 
 class AutocompleteTextField extends React.Component {
@@ -235,10 +237,14 @@ class AutocompleteTextField extends React.Component {
   }
 
   isTrigger(trigger, str, i) {
-    const { ignoreCase } = this.props;
+    const { ignoreCase, triggerInsideWord } = this.props;
 
     if (!trigger || !trigger.length) {
       return true;
+    }
+
+    if (!triggerInsideWord && i > 0 && str.charAt(i - 1).match(/[\w]/)) {
+      return false;
     }
 
     if (str.substr(i, trigger.length) === trigger
