@@ -23,7 +23,7 @@ declare module 'react-autocomplete-input' {
       offsetY?: number;
       passThroughEnter?: boolean;
       passThroughTab?: boolean;
-    } & JSX.IntrinsicAttributes;
+    } & JSX.IntrinsicAttributes & InputHTMLAttributes<HTMLTextAreaElement>;
   
     export type AutocompleteTextFieldProps =
       | ({
