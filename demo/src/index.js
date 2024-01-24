@@ -19,7 +19,7 @@ class App extends Component {
     this.handleTriggerChange = this.handleTriggerChange.bind(this);
     this.handleTriggerArrayChange = this.handleTriggerArrayChange.bind(this)
     this.handleTriggerSwitch = this.handleTriggerSwitch.bind(this)
-    this.handleIgnoreCaseChange = this.handleIgnoreCaseChange.bind(this);
+    this.handleTriggerCaseInsensitiveChange = this.handleTriggerCaseInsensitiveChange.bind(this);
 
     this.state = {
       disabled: false,
@@ -32,7 +32,7 @@ class App extends Component {
       trigger: '@',
       triggerArray: ['@', '!!'],
       isTriggerArray: false,
-      ignoreCase: false
+      triggerCaseInsensitive: false
     };
   }
 
@@ -83,8 +83,8 @@ class App extends Component {
     this.setState({ isTriggerArray: !this.state.isTriggerArray })
   }
 
-  handleIgnoreCaseChange() {
-    this.setState({ ignoreCase: !this.state.ignoreCase });
+  handleTriggerCaseInsensitiveChange() {
+    this.setState({ triggerCaseInsensitive: !this.state.triggerCaseInsensitive });
   }
 
   render() {
@@ -107,7 +107,7 @@ class App extends Component {
             spaceRemovers={this.state.spaceRemovers}
             spacer={this.state.spacer}
             trigger={this.state.isTriggerArray ? this.state.triggerArray : this.state.trigger}
-            ignoreCase={this.state.ignoreCase}
+            triggerCaseInsensitive={this.state.triggerCaseInsensitive}
           />
         </div>
         <hr style={{ margin: '20px 0' }} />
@@ -185,11 +185,11 @@ class App extends Component {
           </div>
         </div>
         <div className="option-block">
-          <h3>ignoreCase : boolean</h3>
+          <h3>triggerCaseInsensitive : boolean</h3>
           <p>Use case-insensitive comparison of input text with trigger</p>
           <p>Default value: false</p>
           <div className="field">
-            <input type="checkbox" onChange={this.handleIgnoreCaseChange} checked={this.state.ignoreCase} />
+            <input type="checkbox" onChange={this.handleTriggerCaseInsensitiveChange} checked={this.state.triggerCaseInsensitive} />
           </div>
         </div>
         <div className="option-block">
