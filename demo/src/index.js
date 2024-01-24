@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM, { findDOMNode } from 'react-dom';
 import TextField from '../../src/AutoCompleteTextField';
 
-import '../dist/bundle.css';
+import '../../dist/bundle.css';
 
 class App extends Component {
   constructor() {
@@ -20,6 +20,7 @@ class App extends Component {
     this.handleTriggerArrayChange = this.handleTriggerArrayChange.bind(this)
     this.handleTriggerSwitch = this.handleTriggerSwitch.bind(this)
     this.handleTriggerMatchWholeWordChange = this.handleTriggerMatchWholeWordChange.bind(this);
+    this.handleTriggerCaseInsensitiveChange = this.handleTriggerCaseInsensitiveChange.bind(this);
 
     this.state = {
       disabled: false,
@@ -33,6 +34,7 @@ class App extends Component {
       triggerArray: ['@', '!!'],
       isTriggerArray: false,
       triggerMatchWholeWord: false,
+      triggerCaseInsensitive: false
     };
   }
 
@@ -87,6 +89,10 @@ class App extends Component {
     this.setState({ triggerMatchWholeWord: !this.state.triggerMatchWholeWord });
   }
 
+  handleTriggerCaseInsensitiveChange() {
+    this.setState({ triggerCaseInsensitive: !this.state.triggerCaseInsensitive });
+  }
+
   render() {
     const options = this.state.options.sort((a, b) => a.localeCompare(b)).map(option => <li key={option}>{option}</li>);
 
@@ -108,6 +114,7 @@ class App extends Component {
             spacer={this.state.spacer}
             trigger={this.state.isTriggerArray ? this.state.triggerArray : this.state.trigger}
             triggerMatchWholeWord={this.state.triggerMatchWholeWord}
+            triggerCaseInsensitive={this.state.triggerCaseInsensitive}
           />
         </div>
         <hr style={{ margin: '20px 0' }} />
@@ -190,6 +197,14 @@ class App extends Component {
           <p>Default value: false</p>
           <div className="field">
             <input type="checkbox" onChange={this.handleTriggerMatchWholeWordChange} checked={this.state.triggerMatchWholeWord} />
+          </div>
+        </div>            
+        <div className="option-block">
+          <h3>triggerCaseInsensitive : boolean</h3>
+          <p>Use case-insensitive comparison of input text with trigger</p>
+          <p>Default value: false</p>
+          <div className="field">
+            <input type="checkbox" onChange={this.handleTriggerCaseInsensitiveChange} checked={this.state.triggerCaseInsensitive} />
           </div>
         </div>
         <div className="option-block">

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import getCaretCoordinates from 'textarea-caret';
 import getInputSelection, { setCaretPosition } from 'get-input-selection';
 import isEqual from 'lodash.isequal';
+import scrollIntoView from 'scroll-into-view-if-needed';
 import './AutoCompleteTextField.css';
 
 const KEY_UP = 38;
@@ -12,7 +13,6 @@ const KEY_ENTER = 14;
 const KEY_ESCAPE = 27;
 const KEY_TAB = 9;
 
-const OPTION_LIST_Y_OFFSET = 10;
 const OPTION_LIST_MIN_WIDTH = 100;
 
 const propTypes = {
@@ -49,6 +49,7 @@ const propTypes = {
   passThroughEnter: PropTypes.bool,
   passThroughTab: PropTypes.bool,
   triggerMatchWholeWord: PropTypes.bool,
+  triggerCaseInsensitive: PropTypes.bool,
 };
 
 const defaultProps = {
@@ -76,6 +77,7 @@ const defaultProps = {
   passThroughEnter: false,
   passThroughTab: true,
   triggerMatchWholeWord: false,
+  triggerCaseInsensitive: false,
 };
 
 class AutocompleteTextField extends React.Component {
@@ -110,6 +112,8 @@ class AutocompleteTextField extends React.Component {
     this.recentValue = props.defaultValue;
     this.enableSpaceRemovers = false;
     this.refInput = createRef();
+    this.refCurrent = createRef();
+    this.refParent = createRef();
   }
 
   componentDidMount() {
@@ -120,9 +124,14 @@ class AutocompleteTextField extends React.Component {
   componentDidUpdate(prevProps) {
     const { options } = this.props;
     const { caret } = this.state;
+    const { helperVisible } = this.state;
 
     if (!isEqual(options, prevProps.options)) {
       this.updateHelper(this.recentValue, caret, options);
+    }
+
+    if (helperVisible && this.refCurrent.current) {
+      scrollIntoView(this.refCurrent.current, { boundary: this.refParent.current, scrollMode: 'if-needed' });
     }
   }
 
@@ -228,16 +237,18 @@ class AutocompleteTextField extends React.Component {
   }
 
   isTrigger(trigger, str, i) {
-    const { triggerMatchWholeWord } = this.props;
     if (!trigger || !trigger.length) {
       return true;
     }
 
+    const { triggerMatchWholeWord } = this.props;
     if (triggerMatchWholeWord && i > 0 && str.charAt(i - 1).match(/[\w]/)) {
       return false;
     }
 
-    if (str.substr(i, trigger.length) === trigger) {
+    const { triggerCaseInsensitive } = this.props;
+    if (str.substr(i, trigger.length) === trigger
+        || (triggerCaseInsensitive && str.substr(i, trigger.length).toLowerCase() === trigger.toLowerCase())) {
       return true;
     }
 
@@ -405,8 +416,10 @@ class AutocompleteTextField extends React.Component {
 
       const top = caretPos.top + rect.top - input.scrollTop;
       const left = Math.min(
-        caretPos.left + input.offsetLeft - OPTION_LIST_Y_OFFSET,
-        input.offsetLeft + rect.width - OPTION_LIST_MIN_WIDTH,
+        /* Fully inside the viewport */
+        caretPos.left + rect.left - input.scrollLeft,
+        /* Ensure minimal width inside viewport */
+        window.innerWidth - OPTION_LIST_MIN_WIDTH,
       );
 
       const { minChars, onRequestOptions, requestOnlyIfNoOptions } = this.props;
@@ -478,6 +491,7 @@ class AutocompleteTextField extends React.Component {
       return (
         <li
           className={idx === selection ? 'active' : null}
+          ref={idx === selection ? this.refCurrent : null}
           key={val}
           onClick={() => { this.handleSelection(idx); }}
           onMouseDown={(e) => { e.preventDefault(); }}
@@ -490,8 +504,21 @@ class AutocompleteTextField extends React.Component {
       );
     });
 
+    /* FIXME: de-hardcode that 5 pixels margin */
+    const maxWidth = window.innerWidth - left - offsetX - 5;
+    const maxHeight = window.innerHeight - top - offsetY - 5;
+
     return (
-      <ul className="react-autocomplete-input" style={{ left: left + offsetX, top: top + offsetY }}>
+      <ul
+        className="react-autocomplete-input"
+        style={{
+          left: left + offsetX,
+          top: top + offsetY,
+          maxHeight,
+          maxWidth,
+        }}
+        ref={this.refParent}
+      >
         {helperOptions}
       </ul>
     );
