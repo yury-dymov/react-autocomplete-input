@@ -48,7 +48,7 @@ const propTypes = {
   offsetY: PropTypes.number,
   passThroughEnter: PropTypes.bool,
   passThroughTab: PropTypes.bool,
-  triggerInsideWord: PropTypes.bool,
+  triggerMatchWholeWord: PropTypes.bool,
 };
 
 const defaultProps = {
@@ -75,7 +75,7 @@ const defaultProps = {
   value: null,
   passThroughEnter: false,
   passThroughTab: true,
-  triggerInsideWord: true,
+  triggerMatchWholeWord: false,
 };
 
 class AutocompleteTextField extends React.Component {
@@ -228,12 +228,12 @@ class AutocompleteTextField extends React.Component {
   }
 
   isTrigger(trigger, str, i) {
-    const { triggerInsideWord } = this.props;
+    const { triggerMatchWholeWord } = this.props;
     if (!trigger || !trigger.length) {
       return true;
     }
 
-    if (!triggerInsideWord && i > 0 && str.charAt(i - 1).match(/[\w]/)) {
+    if (triggerMatchWholeWord && i > 0 && str.charAt(i - 1).match(/[\w]/)) {
       return false;
     }
 

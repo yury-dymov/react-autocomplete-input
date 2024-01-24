@@ -144,6 +144,10 @@ Useful if you want to have the form submit as soon as a single value is chosen.
 If true, then an Tab keypress is passed on (after being used to autocomplete) to the next form input.
 Else, it allows users to autocomplete their input with tab and keep typing.
 
+## triggerMatchWholeWord: boolean
+#### Default value: false
+If true, do not consider the trigger when it appears as a part of longer word. E.g. if the trigger is `class=` do not show the options menu on `subclass=`. If false, any occurrence of the trigger will open the menu.
+
 # Styles Customization
 By default styles are defined in `"react-autocomplete-input/dist/bundle.css"`, however, you may define your custom styles instead for following entities:
 

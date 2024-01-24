@@ -19,7 +19,7 @@ class App extends Component {
     this.handleTriggerChange = this.handleTriggerChange.bind(this);
     this.handleTriggerArrayChange = this.handleTriggerArrayChange.bind(this)
     this.handleTriggerSwitch = this.handleTriggerSwitch.bind(this)
-    this.handleTriggerInsideWordChange = this.handleTriggerInsideWordChange.bind(this);
+    this.handleTriggerMatchWholeWordChange = this.handleTriggerMatchWholeWordChange.bind(this);
 
     this.state = {
       disabled: false,
@@ -32,7 +32,7 @@ class App extends Component {
       trigger: '@',
       triggerArray: ['@', '!!'],
       isTriggerArray: false,
-      triggerInsideWord: true,
+      triggerMatchWholeWord: false,
     };
   }
 
@@ -83,8 +83,8 @@ class App extends Component {
     this.setState({ isTriggerArray: !this.state.isTriggerArray })
   }
 
-  handleTriggerInsideWordChange() {
-    this.setState({ triggerInsideWord: !this.state.triggerInsideWord });
+  handleTriggerMatchWholeWordChange() {
+    this.setState({ triggerMatchWholeWord: !this.state.triggerMatchWholeWord });
   }
 
   render() {
@@ -107,7 +107,7 @@ class App extends Component {
             spaceRemovers={this.state.spaceRemovers}
             spacer={this.state.spacer}
             trigger={this.state.isTriggerArray ? this.state.triggerArray : this.state.trigger}
-            triggerInsideWord={this.state.triggerInsideWord}
+            triggerMatchWholeWord={this.state.triggerMatchWholeWord}
           />
         </div>
         <hr style={{ margin: '20px 0' }} />
@@ -185,11 +185,11 @@ class App extends Component {
           </div>
         </div>
         <div className="option-block">
-          <h3>triggerInsideWord : boolean</h3>
-          <p>Allow triggering inside word</p>
-          <p>Default value: true</p>
+          <h3>triggerMatchWholeWord : boolean</h3>
+          <p>Only match the trigger when it is an isolated word (i.e. do not trigger on subwords)</p>
+          <p>Default value: false</p>
           <div className="field">
-            <input type="checkbox" onChange={this.handleTriggerInsideWordChange} checked={this.state.triggerInsideWord} />
+            <input type="checkbox" onChange={this.handleTriggerMatchWholeWordChange} checked={this.state.triggerMatchWholeWord} />
           </div>
         </div>
         <div className="option-block">
