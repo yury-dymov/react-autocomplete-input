@@ -1,3 +1,8 @@
+### 24th January 2024 - 1.0.30
+- trigger case sensitivity improvements. Props to karpov-sv
+- autocomplete list scrollability improvement. Props to karpov-sv
+- TS definitions fixes. Props to mcornejo
+
 ### 10th November 2023 - 1.0.29
 - fix: onBlur handler called before handling onClick on item (https://github.com/yury-dymov/react-autocomplete-input/pull/122). Props to fabioimpe
 
