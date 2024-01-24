@@ -20,10 +20,14 @@ class App extends Component {
     this.handleTriggerArrayChange = this.handleTriggerArrayChange.bind(this)
     this.handleTriggerSwitch = this.handleTriggerSwitch.bind(this)
 <<<<<<< HEAD
+<<<<<<< HEAD
     this.handleIgnoreCaseChange = this.handleIgnoreCaseChange.bind(this);
 =======
     this.handleTriggerInsideWordChange = this.handleTriggerInsideWordChange.bind(this);
 >>>>>>> edb2f59 (Option to prevent triggering inside the word)
+=======
+    this.handleTriggerCaseInsensitiveChange = this.handleTriggerCaseInsensitiveChange.bind(this);
+>>>>>>> 2f67f8c (Rename the option to better describe what it does, and add it to README)
 
     this.state = {
       disabled: false,
@@ -37,10 +41,14 @@ class App extends Component {
       triggerArray: ['@', '!!'],
       isTriggerArray: false,
 <<<<<<< HEAD
+<<<<<<< HEAD
       ignoreCase: false
 =======
       triggerInsideWord: true,
 >>>>>>> edb2f59 (Option to prevent triggering inside the word)
+=======
+      triggerCaseInsensitive: false
+>>>>>>> 2f67f8c (Rename the option to better describe what it does, and add it to README)
     };
   }
 
@@ -92,12 +100,17 @@ class App extends Component {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   handleIgnoreCaseChange() {
     this.setState({ ignoreCase: !this.state.ignoreCase });
 =======
   handleTriggerInsideWordChange() {
     this.setState({ triggerInsideWord: !this.state.triggerInsideWord });
 >>>>>>> edb2f59 (Option to prevent triggering inside the word)
+=======
+  handleTriggerCaseInsensitiveChange() {
+    this.setState({ triggerCaseInsensitive: !this.state.triggerCaseInsensitive });
+>>>>>>> 2f67f8c (Rename the option to better describe what it does, and add it to README)
   }
 
   render() {
@@ -121,10 +134,14 @@ class App extends Component {
             spacer={this.state.spacer}
             trigger={this.state.isTriggerArray ? this.state.triggerArray : this.state.trigger}
 <<<<<<< HEAD
+<<<<<<< HEAD
             ignoreCase={this.state.ignoreCase}
 =======
             triggerInsideWord={this.state.triggerInsideWord}
 >>>>>>> edb2f59 (Option to prevent triggering inside the word)
+=======
+            triggerCaseInsensitive={this.state.triggerCaseInsensitive}
+>>>>>>> 2f67f8c (Rename the option to better describe what it does, and add it to README)
           />
         </div>
         <hr style={{ margin: '20px 0' }} />
@@ -203,6 +220,7 @@ class App extends Component {
         </div>
         <div className="option-block">
 <<<<<<< HEAD
+<<<<<<< HEAD
           <h3>ignoreCase : boolean</h3>
           <p>Use case-insensitive comparison of input text with trigger</p>
           <p>Default value: false</p>
@@ -215,6 +233,13 @@ class App extends Component {
           <div className="field">
             <input type="checkbox" onChange={this.handleTriggerInsideWordChange} checked={this.state.triggerInsideWord} />
 >>>>>>> edb2f59 (Option to prevent triggering inside the word)
+=======
+          <h3>triggerCaseInsensitive : boolean</h3>
+          <p>Use case-insensitive comparison of input text with trigger</p>
+          <p>Default value: false</p>
+          <div className="field">
+            <input type="checkbox" onChange={this.handleTriggerCaseInsensitiveChange} checked={this.state.triggerCaseInsensitive} />
+>>>>>>> 2f67f8c (Rename the option to better describe what it does, and add it to README)
           </div>
         </div>
         <div className="option-block">
