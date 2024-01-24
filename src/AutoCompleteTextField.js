@@ -48,6 +48,7 @@ const propTypes = {
   offsetY: PropTypes.number,
   passThroughEnter: PropTypes.bool,
   passThroughTab: PropTypes.bool,
+  triggerMatchWholeWord: PropTypes.bool,
   triggerCaseInsensitive: PropTypes.bool,
 };
 
@@ -75,6 +76,7 @@ const defaultProps = {
   value: null,
   passThroughEnter: false,
   passThroughTab: true,
+  triggerMatchWholeWord: false,
   triggerCaseInsensitive: false,
 };
 
@@ -235,12 +237,16 @@ class AutocompleteTextField extends React.Component {
   }
 
   isTrigger(trigger, str, i) {
-    const { triggerCaseInsensitive } = this.props;
-
     if (!trigger || !trigger.length) {
       return true;
     }
 
+    const { triggerMatchWholeWord } = this.props;
+    if (triggerMatchWholeWord && i > 0 && str.charAt(i - 1).match(/[\w]/)) {
+      return false;
+    }
+
+    const { triggerCaseInsensitive } = this.props;
     if (str.substr(i, trigger.length) === trigger
         || (triggerCaseInsensitive && str.substr(i, trigger.length).toLowerCase() === trigger.toLowerCase())) {
       return true;

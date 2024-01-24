@@ -18,16 +18,9 @@ class App extends Component {
     this.handleSpacerChange = this.handleSpacerChange.bind(this);
     this.handleTriggerChange = this.handleTriggerChange.bind(this);
     this.handleTriggerArrayChange = this.handleTriggerArrayChange.bind(this)
-    this.handleTriggerSwitch = this.handleTriggerSwitch.bind(this)
-<<<<<<< HEAD
-<<<<<<< HEAD
-    this.handleIgnoreCaseChange = this.handleIgnoreCaseChange.bind(this);
-=======
-    this.handleTriggerInsideWordChange = this.handleTriggerInsideWordChange.bind(this);
->>>>>>> edb2f59 (Option to prevent triggering inside the word)
-=======
+    this.handleTriggerSwitch = this.handleTriggerSwitch.bind(this)    
     this.handleTriggerCaseInsensitiveChange = this.handleTriggerCaseInsensitiveChange.bind(this);
->>>>>>> 2f67f8c (Rename the option to better describe what it does, and add it to README)
+    this.handleTriggerMatchWholeWordChange = this.handleTriggerMatchWholeWordChange.bind(this);
 
     this.state = {
       disabled: false,
@@ -40,15 +33,8 @@ class App extends Component {
       trigger: '@',
       triggerArray: ['@', '!!'],
       isTriggerArray: false,
-<<<<<<< HEAD
-<<<<<<< HEAD
-      ignoreCase: false
-=======
-      triggerInsideWord: true,
->>>>>>> edb2f59 (Option to prevent triggering inside the word)
-=======
-      triggerCaseInsensitive: false
->>>>>>> 2f67f8c (Rename the option to better describe what it does, and add it to README)
+      triggerCaseInsensitive: false,
+      triggerMatchWholeWord: false,
     };
   }
 
@@ -99,18 +85,12 @@ class App extends Component {
     this.setState({ isTriggerArray: !this.state.isTriggerArray })
   }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-  handleIgnoreCaseChange() {
-    this.setState({ ignoreCase: !this.state.ignoreCase });
-=======
-  handleTriggerInsideWordChange() {
-    this.setState({ triggerInsideWord: !this.state.triggerInsideWord });
->>>>>>> edb2f59 (Option to prevent triggering inside the word)
-=======
   handleTriggerCaseInsensitiveChange() {
     this.setState({ triggerCaseInsensitive: !this.state.triggerCaseInsensitive });
->>>>>>> 2f67f8c (Rename the option to better describe what it does, and add it to README)
+  }
+
+  handleTriggerMatchWholeWordChange() {
+    this.setState({ triggerMatchWholeWord: !this.state.triggerMatchWholeWord });
   }
 
   render() {
@@ -133,15 +113,8 @@ class App extends Component {
             spaceRemovers={this.state.spaceRemovers}
             spacer={this.state.spacer}
             trigger={this.state.isTriggerArray ? this.state.triggerArray : this.state.trigger}
-<<<<<<< HEAD
-<<<<<<< HEAD
-            ignoreCase={this.state.ignoreCase}
-=======
-            triggerInsideWord={this.state.triggerInsideWord}
->>>>>>> edb2f59 (Option to prevent triggering inside the word)
-=======
             triggerCaseInsensitive={this.state.triggerCaseInsensitive}
->>>>>>> 2f67f8c (Rename the option to better describe what it does, and add it to README)
+            triggerMatchWholeWord={this.state.triggerMatchWholeWord}
           />
         </div>
         <hr style={{ margin: '20px 0' }} />
@@ -219,27 +192,19 @@ class App extends Component {
           </div>
         </div>
         <div className="option-block">
-<<<<<<< HEAD
-<<<<<<< HEAD
-          <h3>ignoreCase : boolean</h3>
-          <p>Use case-insensitive comparison of input text with trigger</p>
-          <p>Default value: false</p>
-          <div className="field">
-            <input type="checkbox" onChange={this.handleIgnoreCaseChange} checked={this.state.ignoreCase} />
-=======
-          <h3>triggerInsideWord : boolean</h3>
-          <p>Allow triggering inside word</p>
-          <p>Default value: true</p>
-          <div className="field">
-            <input type="checkbox" onChange={this.handleTriggerInsideWordChange} checked={this.state.triggerInsideWord} />
->>>>>>> edb2f59 (Option to prevent triggering inside the word)
-=======
           <h3>triggerCaseInsensitive : boolean</h3>
           <p>Use case-insensitive comparison of input text with trigger</p>
           <p>Default value: false</p>
           <div className="field">
             <input type="checkbox" onChange={this.handleTriggerCaseInsensitiveChange} checked={this.state.triggerCaseInsensitive} />
->>>>>>> 2f67f8c (Rename the option to better describe what it does, and add it to README)
+          </div>
+        </div>
+        <div className="option-block">
+          <h3>triggerMatchWholeWord : boolean</h3>
+          <p>Only match the trigger when it is an isolated word (i.e. do not trigger on subwords)</p>
+          <p>Default value: false</p>
+          <div className="field">
+            <input type="checkbox" onChange={this.handleTriggerMatchWholeWordChange} checked={this.state.triggerMatchWholeWord} />
           </div>
         </div>
         <div className="option-block">
