@@ -1,5 +1,5 @@
 declare module 'react-autocomplete-input' {
-    import React, { ComponentType, KeyboardEvent, FocusEventHandler } from 'react';
+    import type { JSX, Component, ComponentType, KeyboardEvent, FocusEventHandler, InputHTMLAttributes } from 'react';
   
     type AutocompleteTextFieldPropsGeneral = {
       Component?: string | ComponentType<any>;
@@ -40,6 +40,6 @@ declare module 'react-autocomplete-input' {
      * @param options - An array of strings or an object with keys as triggers and values as options
      * @param trigger - If options has keys, this should be an array of triggers
      */
-    export default class AutocompleteTextField extends React.Component<AutocompleteTextFieldProps> {}
+    export default class AutocompleteTextField extends Component<AutocompleteTextFieldProps> {}
   }
   
