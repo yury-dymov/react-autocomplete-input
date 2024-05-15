@@ -1,3 +1,6 @@
+### 15th May 2024 - 1.0.31
+- type definition fixes (https://github.com/yury-dymov/react-autocomplete-input/pull/132). Props to freshgiammi
+
 ### 24th January 2024 - 1.0.30
 - trigger case sensitivity improvements. Props to karpov-sv
 - autocomplete list scrollability improvement. Props to karpov-sv
